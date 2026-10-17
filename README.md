@@ -10,6 +10,7 @@ Full plan: see [`docs/AI_Predictive_Maintenance_System_—_Full_Project_Document
 | Folder | Workstream |
 |---|---|
 | `ml/` | WS1 data & features, WS2 models, WS3 explainability & evaluation |
+| `ml/models/v1/` | T20 production model artifacts + model card |
 | `rag/` | WS4 knowledge base & RAG engine |
 | `backend/` | WS6 API, auth, database |
 | `frontend/` | WS8 dashboard |
@@ -49,6 +50,30 @@ should cite the real source rather than imply it's original field data.
 | T11 leave-one-failure-out validation | done | `ml/src/validation.py`, 7 folds, 360min purge |
 | T12 feature engineering | done | `ml/src/features.py` — rolling/EWM/FFT/cross-sensor |
 | T13 versioned feature table | done | `data/processed/features_v1.parquet` (1053 cols, gitignored — regenerate with `ml/src/build_features.py`), dictionary in `ml/reports/data_dictionary.md` |
-| T14+ (model training) | not started | next up |
-
 Run the pipeline: `cd ml/src && ../../.venv/Scripts/python build_features.py`
+
+## Progress — WS2 (model training & evaluation)
+
+All evaluated leave-one-failure-out (7 folds, one event held out per fold).
+
+| Task | Status | Headline result | Output |
+|---|---|---|---|
+| T14 anomaly baselines (IsoForest/PCA/Mahalanobis) | done | 1–2/7 detected — honest, weak baselines | `ml/reports/t14_anomaly_baselines.json` |
+| T15 LSTM-Autoencoder | done | 1/7 detected — first pass, 4 epochs, not tuned | `ml/reports/t15_lstm_autoencoder.json` |
+| T16 supervised risk (XGBoost/LightGBM) | done | 3/7 detected — see bug note below | `ml/reports/t16_t17_supervised_risk.json` |
+| T17 calibration + risk levels | done | isotonic + Green/Yellow/Orange/Red thresholds | same file |
+| T18 persistence/hysteresis | done | self-tested: single spike absorbed, sustained rise escalates | `ml/src/alert_state.py` |
+| T19 RUL regressor | done | MAE ~194min on a 720min horizon | `ml/reports/t19_rul_model.json` |
+| T20 model registry + card | done | production artifacts trained on all 7 events | `ml/models/v1/model_card.json` |
+
+**Bug caught and fixed:** T16/T17's first run reported a suspicious "perfect" 7/7
+detection at full lead time on every fold. Root cause: isotonic calibration
+collapsed the near-perfectly-separated NORMAL class to calibrated probability
+exactly `0.0`, so the 99th-percentile alert threshold was also `0.0` — and since
+probabilities can't go negative, every row trivially satisfied `score >= 0`. Fixed
+by thresholding on the raw (uncalibrated) probability instead; re-run gives the
+real 3/7 result above. See `ml/src/supervised_risk.py` docstring.
+
+Run model training: `cd ml/src && ../../.venv/Scripts/python anomaly_baselines.py`
+(similarly for `lstm_autoencoder.py`, `supervised_risk.py`, `rul_model.py`,
+`model_registry.py`).

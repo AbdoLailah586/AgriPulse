@@ -1,7 +1,7 @@
 """Generate a short, supervisor-facing PDF progress report for AgriPulse.
 
 Run: ../.venv/Scripts/python generate_progress_report.py
-Output: ../reports/AgriPulse_Progress_Report.pdf
+Output: ../reports/AgriPulse_Progress_Report_v2.pdf
 """
 
 from pathlib import Path
@@ -21,7 +21,7 @@ from reportlab.platypus import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT_PATH = ROOT / "reports" / "AgriPulse_Progress_Report.pdf"
+OUT_PATH = ROOT / "reports" / "AgriPulse_Progress_Report_v2.pdf"
 
 NAVY = colors.HexColor("#1B3A5C")
 TEAL = colors.HexColor("#1F7A6C")
@@ -126,17 +126,18 @@ def build():
             "6-to-12-hour warning horizon, and generates a standards-grounded maintenance "
             "work order through a Retrieval-Augmented Generation (RAG) engine. The full "
             "scope and 67-task execution plan are documented in <i>docs/</i>; this report "
-            "covers progress on the first workstream only (WS1 — data pipeline)."
+            "covers progress on the first two workstreams: WS1 (data pipeline) and WS2 "
+            "(model training &amp; evaluation)."
         )
     )
 
-    # 2. Work completed
+    # 2. Work completed — WS1
     story.append(section_title("2. Work Completed — WS1 (Data Pipeline)"))
     story.append(
         p(
-            "The data pipeline (tasks T08–T13 of the plan) has been implemented and run "
-            "end to end against the real 220,320-row sensor dataset — not just designed, "
-            "but working, tested code producing real output."
+            "Tasks T08–T13 of the plan: implemented and run end to end against the real "
+            "220,320-row sensor dataset — not just designed, but working, tested code "
+            "producing real output."
         )
     )
     story.append(Spacer(1, 4))
@@ -145,12 +146,11 @@ def build():
             [
                 ["Task", "Deliverable", "Status"],
                 ["T08 — Ingest &amp; profile dataset", "profile_report.json", "Done — verified"],
-                ["T09 — Clean data &amp; sensor handling", "sensor_handling.md", "Done — policy corrected (see §3)"],
+                ["T09 — Clean data &amp; sensor handling", "sensor_handling.md", "Done — policy corrected (see §4)"],
                 ["T10 — Labeling (WARNING / RUL targets)", "labeling.py, 3 horizons (6h/8h/12h)", "Done"],
                 ["T11 — Leave-one-failure-out validation", "validation.py, 7 folds", "Done"],
                 ["T12 — Feature engineering library", "features.py (rolling/EWM/FFT/cross-sensor)", "Done"],
                 ["T13 — Versioned feature table", "features_v1.parquet, 1,053 columns", "Done"],
-                ["T14–T20 — Model training (anomaly, risk, RUL)", "—", "In progress"],
             ],
             col_widths=[6.3 * cm, 6.7 * cm, 3.5 * cm],
         )
@@ -158,11 +158,48 @@ def build():
     story.append(Spacer(1, 4))
     story.append(p("Repository is organized by workstream (ml/, rag/, backend/, frontend/, iot/) and under git version control.", "Caption"))
 
-    # 3. Key finding
-    story.append(section_title("3. Key Finding During Data Cleaning"))
+    # 2b. Work completed — WS2
+    story.append(section_title("3. Work Completed — WS2 (Model Training &amp; Evaluation)"))
+    story.append(
+        p(
+            "Tasks T14–T20: every model is trained and evaluated leave-one-failure-out "
+            "(7 folds — one real failure event held out per fold, never seen in that "
+            "fold's training data). All numbers below are real, reproducible results, "
+            "not placeholders or projections."
+        )
+    )
+    story.append(Spacer(1, 4))
+    story.append(
+        status_table(
+            [
+                ["Task", "Headline result", "Status"],
+                ["T14 — Anomaly baselines (IsoForest/PCA/Mahalanobis)", "1–2 / 7 events detected", "Done"],
+                ["T15 — LSTM-Autoencoder", "1 / 7 detected (first pass, 4 epochs)", "Done"],
+                ["T16 — Supervised risk (XGBoost/LightGBM)", "3 / 7 detected — see bug note (§4)", "Done"],
+                ["T17 — Calibration + Green/Yellow/Orange/Red levels", "isotonic calibration", "Done"],
+                ["T18 — Persistence/hysteresis alert logic", "self-tested, no false flicker", "Done"],
+                ["T19 — RUL regressor", "MAE ~194 min on a 720-min horizon", "Done"],
+                ["T20 — Model registry &amp; model card", "ml/models/v1/model_card.json", "Done"],
+            ],
+            col_widths=[7.3 * cm, 6.2 * cm, 3 * cm],
+        )
+    )
+    story.append(Spacer(1, 4))
+    story.append(
+        p(
+            "Detection rates look modest (best model: 3/7) — this is honest, not a weak "
+            "result: with only 7 failure events total, a leave-one-failure-out fold tests "
+            "genuine generalization to an event the model never saw, which is a much "
+            "harder and more meaningful bar than in-sample accuracy.",
+            "Caption",
+        )
+    )
+
+    # 4. Key findings
+    story.append(section_title("4. Key Findings During Engineering"))
     story.append(
         highlight_box(
-            "Two sensors had multi-day data gaps directly overlapping two failure events",
+            "Finding 1 — two sensors had multi-day data gaps directly overlapping two failure events",
             [
                 "The original plan called for forward-fill / linear interpolation on sensor_50 and "
                 "sensor_51. Profiling the actual data showed this would have been a mistake: "
@@ -174,14 +211,32 @@ def build():
                 "the exact events the model is supposed to learn from. The pipeline now leaves long "
                 "gaps as missing and adds a `_was_missing` indicator column instead, and only "
                 "interpolates genuinely short gaps (recalibrated threshold: 30 minutes, based on the "
-                "actual gap-length distribution in the data). This is documented in "
-                "ml/reports/sensor_handling.md.",
+                "actual gap-length distribution in the data). Documented in ml/reports/sensor_handling.md.",
+            ],
+        )
+    )
+    story.append(Spacer(1, 10))
+    story.append(
+        highlight_box(
+            "Finding 2 — a calibration bug made the first model results falsely look perfect",
+            [
+                "The first T16/T17 run reported a suspicious \"perfect\" result: every one of the 7 "
+                "held-out failures detected, every single one at the very first minute of its "
+                "12-hour warning window. That pattern — not gradual, not varying per event — was the "
+                "tell that something was wrong rather than something to celebrate.",
+                "Root cause: isotonic probability calibration collapsed the near-perfectly-separated "
+                "NORMAL class to a calibrated probability of exactly 0.0, which made the 99th-"
+                "percentile alert threshold also exactly 0.0 — and since a probability can never be "
+                "negative, literally every row in the dataset trivially satisfied \"score &gt;= 0\". "
+                "Fixed by computing the alert threshold from the raw, uncalibrated probability "
+                "instead. The honest, real result after the fix is 3/7 (§3). See "
+                "ml/src/supervised_risk.py for the full writeup.",
             ],
         )
     )
 
-    # 4. Validated facts
-    story.append(section_title("4. Validated Dataset Facts"))
+    # 5. Validated facts
+    story.append(section_title("5. Validated Dataset Facts"))
     story.append(p("All headline numbers quoted in the planning documents were checked against the real CSV and confirmed accurate:", "Body"))
     story.append(Spacer(1, 4))
     story.append(
@@ -198,7 +253,7 @@ def build():
         )
     )
 
-    story.append(section_title("5. Open Items Needing Supervisor / Team Input"))
+    story.append(section_title("6. Open Items Needing Supervisor / Team Input"))
     for line in [
         "<b>Dataset provenance:</b> the data's structure (perfectly regular, zero gaps/duplicates, "
         "anonymized sensor_00..51 naming) matches a known public predictive-maintenance pump "
@@ -214,14 +269,13 @@ def build():
     ]:
         story.append(p(f"•&nbsp;&nbsp;{line}", "BulletItem"))
 
-    story.append(section_title("6. Next Steps"))
+    story.append(section_title("7. Next Steps"))
     story.append(
         p(
-            "Proceed with T14–T20: train the baseline anomaly detectors (Isolation Forest, "
-            "LSTM-Autoencoder), the supervised risk classifier (XGBoost/LightGBM), probability "
-            "calibration and Green-to-Red risk levels, the persistence/hysteresis alert logic, and "
-            "the RUL regressor — evaluated per failure event via the leave-one-failure-out folds "
-            "already built, given only 7 total failure events are available.",
+            "WS3 (T21–T25): SHAP-based explainability on the risk model, per-sensor reconstruction "
+            "error from the autoencoder, and formal event-level evaluation reporting with ablations. "
+            "Then WS4 (T26–T33): build the knowledge base (ISO 10816-3, FMEA, O&amp;M manuals) and the "
+            "RAG engine — this is where the LLM API key noted in §6 becomes necessary.",
             "Body",
         )
     )
