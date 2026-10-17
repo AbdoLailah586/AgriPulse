@@ -1,0 +1,173 @@
+{
+  "isoforest": {
+    "detection_rate": "1/7",
+    "lead_time_min_mean": 680.0,
+    "lead_time_min_median": 680.0,
+    "false_alarms_per_week_mean_insample": 1.209140526599892,
+    "per_event": [
+      {
+        "fold": 0,
+        "event": 0,
+        "t_broken": "2018-04-12 21:55:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 1,
+        "event": 1,
+        "t_broken": "2018-04-18 00:30:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 2,
+        "event": 2,
+        "t_broken": "2018-05-19 03:18:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 3,
+        "event": 3,
+        "t_broken": "2018-05-25 00:30:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 4,
+        "event": 4,
+        "t_broken": "2018-06-28 22:00:00",
+        "detected": true,
+        "lead_time_min": 680.0
+      },
+      {
+        "fold": 5,
+        "event": 5,
+        "t_broken": "2018-07-08 00:11:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 6,
+        "event": 6,
+        "t_broken": "2018-07-25 14:00:00",
+        "detected": false,
+        "lead_time_min": NaN
+      }
+    ]
+  },
+  "pca_recon": {
+    "detection_rate": "1/7",
+    "lead_time_min_mean": 720.0,
+    "lead_time_min_median": 720.0,
+    "false_alarms_per_week_mean_insample": 1.705751814310562,
+    "per_event": [
+      {
+        "fold": 0,
+        "event": 0,
+        "t_broken": "2018-04-12 21:55:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 1,
+        "event": 1,
+        "t_broken": "2018-04-18 00:30:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 2,
+        "event": 2,
+        "t_broken": "2018-05-19 03:18:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 3,
+        "event": 3,
+        "t_broken": "2018-05-25 00:30:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 4,
+        "event": 4,
+        "t_broken": "2018-06-28 22:00:00",
+        "detected": true,
+        "lead_time_min": 720.0
+      },
+      {
+        "fold": 5,
+        "event": 5,
+        "t_broken": "2018-07-08 00:11:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 6,
+        "event": 6,
+        "t_broken": "2018-07-25 14:00:00",
+        "detected": false,
+        "lead_time_min": NaN
+      }
+    ]
+  },
+  "mahalanobis": {
+    "detection_rate": "2/7",
+    "lead_time_min_mean": 368.0,
+    "lead_time_min_median": 368.0,
+    "false_alarms_per_week_mean_insample": 2.02962874107839,
+    "per_event": [
+      {
+        "fold": 0,
+        "event": 0,
+        "t_broken": "2018-04-12 21:55:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 1,
+        "event": 1,
+        "t_broken": "2018-04-18 00:30:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 2,
+        "event": 2,
+        "t_broken": "2018-05-19 03:18:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 3,
+        "event": 3,
+        "t_broken": "2018-05-25 00:30:00",
+        "detected": true,
+        "lead_time_min": 16.0
+      },
+      {
+        "fold": 4,
+        "event": 4,
+        "t_broken": "2018-06-28 22:00:00",
+        "detected": true,
+        "lead_time_min": 720.0
+      },
+      {
+        "fold": 5,
+        "event": 5,
+        "t_broken": "2018-07-08 00:11:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 6,
+        "event": 6,
+        "t_broken": "2018-07-25 14:00:00",
+        "detected": false,
+        "lead_time_min": NaN
+      }
+    ]
+  }
+}

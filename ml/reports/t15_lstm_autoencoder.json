@@ -1,0 +1,59 @@
+{
+  "architecture": "LSTM-AE seq_len=30 hidden=32 epochs=4 stride=5",
+  "detection_rate": "1/7",
+  "lead_time_min_mean": 358.0,
+  "lead_time_min_median": 358.0,
+  "false_alarms_per_week_mean_insample": 2.1591795117855215,
+  "per_event": [
+    {
+      "fold": 0,
+      "event": 0,
+      "t_broken": "2018-04-12 21:55:00",
+      "detected": false,
+      "lead_time_min": NaN
+    },
+    {
+      "fold": 1,
+      "event": 1,
+      "t_broken": "2018-04-18 00:30:00",
+      "detected": false,
+      "lead_time_min": NaN
+    },
+    {
+      "fold": 2,
+      "event": 2,
+      "t_broken": "2018-05-19 03:18:00",
+      "detected": false,
+      "lead_time_min": NaN
+    },
+    {
+      "fold": 3,
+      "event": 3,
+      "t_broken": "2018-05-25 00:30:00",
+      "detected": false,
+      "lead_time_min": NaN
+    },
+    {
+      "fold": 4,
+      "event": 4,
+      "t_broken": "2018-06-28 22:00:00",
+      "detected": true,
+      "lead_time_min": 358.0
+    },
+    {
+      "fold": 5,
+      "event": 5,
+      "t_broken": "2018-07-08 00:11:00",
+      "detected": false,
+      "lead_time_min": NaN
+    },
+    {
+      "fold": 6,
+      "event": 6,
+      "t_broken": "2018-07-25 14:00:00",
+      "detected": false,
+      "lead_time_min": NaN
+    }
+  ],
+  "total_runtime_sec": 213.9177782535553
+}

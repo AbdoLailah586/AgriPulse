@@ -33,3 +33,4 @@ frontend/.next/
 Thumbs.db
 .vscode/
 .idea/
+.claude/
