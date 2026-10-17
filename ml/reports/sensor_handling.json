@@ -1,0 +1,289 @@
+{
+  "dropped": {
+    "sensor_15": "100% missing"
+  },
+  "near_constant_flagged": [],
+  "gap_actions": {
+    "sensor_00": {
+      "action": "flagged_not_imputed",
+      "n_missing": 10208,
+      "longest_gap_min": 6076,
+      "reason": "longest gap 6076min > 30min threshold"
+    },
+    "sensor_01": {
+      "action": "flagged_not_imputed",
+      "n_missing": 369,
+      "longest_gap_min": 200,
+      "reason": "longest gap 200min > 30min threshold"
+    },
+    "sensor_02": {
+      "action": "linear_interpolated",
+      "n_missing": 19,
+      "longest_gap_min": 8
+    },
+    "sensor_03": {
+      "action": "linear_interpolated",
+      "n_missing": 19,
+      "longest_gap_min": 8
+    },
+    "sensor_04": {
+      "action": "linear_interpolated",
+      "n_missing": 19,
+      "longest_gap_min": 8
+    },
+    "sensor_05": {
+      "action": "linear_interpolated",
+      "n_missing": 19,
+      "longest_gap_min": 8
+    },
+    "sensor_06": {
+      "action": "flagged_not_imputed",
+      "n_missing": 4798,
+      "longest_gap_min": 4299,
+      "reason": "longest gap 4299min > 30min threshold"
+    },
+    "sensor_07": {
+      "action": "flagged_not_imputed",
+      "n_missing": 5451,
+      "longest_gap_min": 4668,
+      "reason": "longest gap 4668min > 30min threshold"
+    },
+    "sensor_08": {
+      "action": "flagged_not_imputed",
+      "n_missing": 5107,
+      "longest_gap_min": 4227,
+      "reason": "longest gap 4227min > 30min threshold"
+    },
+    "sensor_09": {
+      "action": "flagged_not_imputed",
+      "n_missing": 4595,
+      "longest_gap_min": 4212,
+      "reason": "longest gap 4212min > 30min threshold"
+    },
+    "sensor_10": {
+      "action": "linear_interpolated",
+      "n_missing": 19,
+      "longest_gap_min": 8
+    },
+    "sensor_11": {
+      "action": "linear_interpolated",
+      "n_missing": 19,
+      "longest_gap_min": 8
+    },
+    "sensor_12": {
+      "action": "linear_interpolated",
+      "n_missing": 19,
+      "longest_gap_min": 8
+    },
+    "sensor_13": {
+      "action": "linear_interpolated",
+      "n_missing": 19,
+      "longest_gap_min": 8
+    },
+    "sensor_14": {
+      "action": "linear_interpolated",
+      "n_missing": 21,
+      "longest_gap_min": 8
+    },
+    "sensor_16": {
+      "action": "linear_interpolated",
+      "n_missing": 31,
+      "longest_gap_min": 15
+    },
+    "sensor_17": {
+      "action": "linear_interpolated",
+      "n_missing": 46,
+      "longest_gap_min": 15
+    },
+    "sensor_18": {
+      "action": "linear_interpolated",
+      "n_missing": 46,
+      "longest_gap_min": 15
+    },
+    "sensor_19": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_20": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_21": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_22": {
+      "action": "linear_interpolated",
+      "n_missing": 41,
+      "longest_gap_min": 15
+    },
+    "sensor_23": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_24": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_25": {
+      "action": "linear_interpolated",
+      "n_missing": 36,
+      "longest_gap_min": 14
+    },
+    "sensor_26": {
+      "action": "linear_interpolated",
+      "n_missing": 20,
+      "longest_gap_min": 8
+    },
+    "sensor_27": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_28": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_29": {
+      "action": "flagged_not_imputed",
+      "n_missing": 72,
+      "longest_gap_min": 41,
+      "reason": "longest gap 41min > 30min threshold"
+    },
+    "sensor_30": {
+      "action": "flagged_not_imputed",
+      "n_missing": 261,
+      "longest_gap_min": 239,
+      "reason": "longest gap 239min > 30min threshold"
+    },
+    "sensor_31": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_32": {
+      "action": "flagged_not_imputed",
+      "n_missing": 68,
+      "longest_gap_min": 35,
+      "reason": "longest gap 35min > 30min threshold"
+    },
+    "sensor_33": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_34": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_35": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_36": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_37": {
+      "action": "linear_interpolated",
+      "n_missing": 16,
+      "longest_gap_min": 8
+    },
+    "sensor_38": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_39": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_40": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_41": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_42": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_43": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_44": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_45": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_46": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_47": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_48": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_49": {
+      "action": "linear_interpolated",
+      "n_missing": 27,
+      "longest_gap_min": 8
+    },
+    "sensor_50": {
+      "action": "flagged_not_imputed",
+      "n_missing": 77017,
+      "longest_gap_min": 76996,
+      "reason": "longest gap 76996min > 30min threshold"
+    },
+    "sensor_51": {
+      "action": "flagged_not_imputed",
+      "n_missing": 15383,
+      "longest_gap_min": 15356,
+      "reason": "longest gap 15356min > 30min threshold"
+    }
+  },
+  "missing_indicator_cols": [
+    "sensor_00_was_missing",
+    "sensor_01_was_missing",
+    "sensor_06_was_missing",
+    "sensor_07_was_missing",
+    "sensor_08_was_missing",
+    "sensor_09_was_missing",
+    "sensor_29_was_missing",
+    "sensor_30_was_missing",
+    "sensor_32_was_missing",
+    "sensor_50_was_missing",
+    "sensor_51_was_missing"
+  ],
+  "n_rows": 220320,
+  "n_sensor_cols_kept": 51
+}

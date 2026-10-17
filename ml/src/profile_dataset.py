@@ -52,7 +52,7 @@ def main():
     }
 
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    REPORT_PATH.write_text(json.dumps(report, indent=2, default=str))
+    REPORT_PATH.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
 
     print(json.dumps(report, indent=2, default=str))
 

@@ -38,3 +38,17 @@ submission — the structure (minute-level, zero gaps/duplicates across 5 months
 public Kaggle predictive-maintenance pump dataset rather than proprietary
 Egyptian field telemetry. Doesn't block the engineering work, but the thesis
 should cite the real source rather than imply it's original field data.
+
+## Progress — WS1 (data & features)
+
+| Task | Status | Output |
+|---|---|---|
+| T08 ingest & profile | done | `ml/reports/profile_report.json` |
+| T09 clean & sensor handling | done | `ml/reports/sensor_handling.md` — **deviates from the plan docs**: sensor_50/51 have multi-day gaps overlapping breakdown events #7 and #5, so they're flagged (indicator column), not imputed as the docs suggested |
+| T10 labeling (WARNING/RUL) | done | `ml/src/labeling.py`, windows 360/480/720 min |
+| T11 leave-one-failure-out validation | done | `ml/src/validation.py`, 7 folds, 360min purge |
+| T12 feature engineering | done | `ml/src/features.py` — rolling/EWM/FFT/cross-sensor |
+| T13 versioned feature table | done | `data/processed/features_v1.parquet` (1053 cols, gitignored — regenerate with `ml/src/build_features.py`), dictionary in `ml/reports/data_dictionary.md` |
+| T14+ (model training) | not started | next up |
+
+Run the pipeline: `cd ml/src && ../../.venv/Scripts/python build_features.py`
