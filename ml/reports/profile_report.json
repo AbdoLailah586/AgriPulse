@@ -1,0 +1,124 @@
+{
+  "n_rows": 220320,
+  "n_cols": 54,
+  "n_sensor_cols": 52,
+  "time_range": [
+    "2018-04-01 00:00:00",
+    "2018-08-31 23:59:00"
+  ],
+  "timestamps_sorted": true,
+  "n_duplicate_timestamps": 0,
+  "n_non_1min_gaps": 0,
+  "machine_status_counts": {
+    "NORMAL": 205836,
+    "RECOVERING": 14477,
+    "BROKEN": 7
+  },
+  "machine_status_pct": {
+    "NORMAL": 93.426,
+    "RECOVERING": 6.571,
+    "BROKEN": 0.003
+  },
+  "n_broken_rows": 7,
+  "breakdown_events": [
+    {
+      "row_index": 17155,
+      "timestamp": "2018-04-12 21:55:00"
+    },
+    {
+      "row_index": 24510,
+      "timestamp": "2018-04-18 00:30:00"
+    },
+    {
+      "row_index": 69318,
+      "timestamp": "2018-05-19 03:18:00"
+    },
+    {
+      "row_index": 77790,
+      "timestamp": "2018-05-25 00:30:00"
+    },
+    {
+      "row_index": 128040,
+      "timestamp": "2018-06-28 22:00:00"
+    },
+    {
+      "row_index": 141131,
+      "timestamp": "2018-07-08 00:11:00"
+    },
+    {
+      "row_index": 166440,
+      "timestamp": "2018-07-25 14:00:00"
+    }
+  ],
+  "top_10_missing_sensors_pct": {
+    "sensor_15": 100.0,
+    "sensor_50": 34.957,
+    "sensor_51": 6.982,
+    "sensor_00": 4.633,
+    "sensor_07": 2.474,
+    "sensor_08": 2.318,
+    "sensor_06": 2.178,
+    "sensor_09": 2.086,
+    "sensor_01": 0.167,
+    "sensor_30": 0.118
+  },
+  "sensor_100pct_missing": [
+    "sensor_15"
+  ],
+  "sensors_over_30pct_missing": [
+    "sensor_15",
+    "sensor_50"
+  ],
+  "sensors_over_90pct_complete": [
+    "sensor_51",
+    "sensor_00",
+    "sensor_07",
+    "sensor_08",
+    "sensor_06",
+    "sensor_09",
+    "sensor_01",
+    "sensor_30",
+    "sensor_29",
+    "sensor_32",
+    "sensor_18",
+    "sensor_17",
+    "sensor_22",
+    "sensor_25",
+    "sensor_16",
+    "sensor_44",
+    "sensor_41",
+    "sensor_40",
+    "sensor_49",
+    "sensor_48",
+    "sensor_45",
+    "sensor_42",
+    "sensor_38",
+    "sensor_39",
+    "sensor_46",
+    "sensor_47",
+    "sensor_43",
+    "sensor_14",
+    "sensor_26",
+    "sensor_02",
+    "sensor_04",
+    "sensor_05",
+    "sensor_10",
+    "sensor_03",
+    "sensor_13",
+    "sensor_12",
+    "sensor_11",
+    "sensor_19",
+    "sensor_35",
+    "sensor_34",
+    "sensor_24",
+    "sensor_27",
+    "sensor_20",
+    "sensor_23",
+    "sensor_33",
+    "sensor_31",
+    "sensor_28",
+    "sensor_21",
+    "sensor_37",
+    "sensor_36"
+  ]
+}

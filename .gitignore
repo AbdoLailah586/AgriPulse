@@ -1,0 +1,35 @@
+# Environments
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Data (large, not versioned — see docs/ for provenance notes)
+data/raw/*.csv
+data/processed/
+*.parquet
+
+# ML artifacts
+mlruns/
+*.pt
+*.pkl
+*.joblib
+ml/reports/*.html
+
+# Vector store / RAG
+rag/kb/chroma/
+
+# Node / frontend
+frontend/node_modules/
+frontend/.next/
+
+# Env secrets
+.env
+.env.*
+!.env.example
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

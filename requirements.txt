@@ -1,0 +1,28 @@
+# Core ML stack (WS1 data & features, WS2 models, WS3 explainability)
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.5
+xgboost>=2.1
+lightgbm>=4.5
+torch>=2.4
+shap>=0.46
+mlflow>=2.16
+matplotlib>=3.9
+plotly>=5.24
+pyarrow>=17.0
+
+# RAG / knowledge base (WS4)
+langchain>=0.3
+chromadb>=0.5
+
+# Backend (WS6)
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.9
+sqlalchemy>=2.0
+psycopg[binary]>=3.2
+redis>=5.0
+
+# Dev / quality
+pytest>=8.3
+ruff>=0.6
