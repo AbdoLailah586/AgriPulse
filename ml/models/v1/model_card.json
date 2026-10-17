@@ -1,0 +1,353 @@
+{
+  "model_version": "v1",
+  "intended_use": "Early-warning risk scoring and maintenance work-order triggering for the AgriPulse pump telemetry demo dataset. NOT validated on a different pump, sensor set, or site \u2014 see docs/ provenance note before any claim of field readiness.",
+  "training_data": "sensor.csv, 220,320 rows, 7 failure events (same 7 events used for both training this production artifact and the leave-one-failure-out evaluation below \u2014 evaluation folds hold out one event at a time; THIS artifact uses all 7, so its own training-set performance is not a valid estimate of its generalization \u2014 refer to the leave-one-failure-out numbers for that).",
+  "known_limitations": [
+    "Only 7 failure events total \u2014 every evaluation number below is a single-event result, not large-sample statistics.",
+    "sensor_50/sensor_51 have multi-day gaps overlapping breakdown events #7 and #5 \u2014 see ml/reports/sensor_handling.md.",
+    "T16/T17 first run had a threshold-calibration bug (isotonic calibration collapsed the NORMAL class to probability 0.0, making the 99th-percentile alert threshold also 0.0, which trivially fired on every row) \u2014 fixed by thresholding on raw, not calibrated, probability. See supervised_risk.py docstring."
+  ],
+  "evaluation_leave_one_failure_out": {
+    "t14_anomaly_baselines": {
+      "isoforest": {
+        "detection_rate": "1/7",
+        "lead_time_min_mean": 680.0,
+        "lead_time_min_median": 680.0,
+        "false_alarms_per_week_mean_insample": 1.209140526599892,
+        "per_event": [
+          {
+            "fold": 0,
+            "event": 0,
+            "t_broken": "2018-04-12 21:55:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 1,
+            "event": 1,
+            "t_broken": "2018-04-18 00:30:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 2,
+            "event": 2,
+            "t_broken": "2018-05-19 03:18:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 3,
+            "event": 3,
+            "t_broken": "2018-05-25 00:30:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 4,
+            "event": 4,
+            "t_broken": "2018-06-28 22:00:00",
+            "detected": true,
+            "lead_time_min": 680.0
+          },
+          {
+            "fold": 5,
+            "event": 5,
+            "t_broken": "2018-07-08 00:11:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 6,
+            "event": 6,
+            "t_broken": "2018-07-25 14:00:00",
+            "detected": false,
+            "lead_time_min": NaN
+          }
+        ]
+      },
+      "pca_recon": {
+        "detection_rate": "1/7",
+        "lead_time_min_mean": 720.0,
+        "lead_time_min_median": 720.0,
+        "false_alarms_per_week_mean_insample": 1.705751814310562,
+        "per_event": [
+          {
+            "fold": 0,
+            "event": 0,
+            "t_broken": "2018-04-12 21:55:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 1,
+            "event": 1,
+            "t_broken": "2018-04-18 00:30:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 2,
+            "event": 2,
+            "t_broken": "2018-05-19 03:18:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 3,
+            "event": 3,
+            "t_broken": "2018-05-25 00:30:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 4,
+            "event": 4,
+            "t_broken": "2018-06-28 22:00:00",
+            "detected": true,
+            "lead_time_min": 720.0
+          },
+          {
+            "fold": 5,
+            "event": 5,
+            "t_broken": "2018-07-08 00:11:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 6,
+            "event": 6,
+            "t_broken": "2018-07-25 14:00:00",
+            "detected": false,
+            "lead_time_min": NaN
+          }
+        ]
+      },
+      "mahalanobis": {
+        "detection_rate": "2/7",
+        "lead_time_min_mean": 368.0,
+        "lead_time_min_median": 368.0,
+        "false_alarms_per_week_mean_insample": 2.02962874107839,
+        "per_event": [
+          {
+            "fold": 0,
+            "event": 0,
+            "t_broken": "2018-04-12 21:55:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 1,
+            "event": 1,
+            "t_broken": "2018-04-18 00:30:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 2,
+            "event": 2,
+            "t_broken": "2018-05-19 03:18:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 3,
+            "event": 3,
+            "t_broken": "2018-05-25 00:30:00",
+            "detected": true,
+            "lead_time_min": 16.0
+          },
+          {
+            "fold": 4,
+            "event": 4,
+            "t_broken": "2018-06-28 22:00:00",
+            "detected": true,
+            "lead_time_min": 720.0
+          },
+          {
+            "fold": 5,
+            "event": 5,
+            "t_broken": "2018-07-08 00:11:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 6,
+            "event": 6,
+            "t_broken": "2018-07-25 14:00:00",
+            "detected": false,
+            "lead_time_min": NaN
+          }
+        ]
+      }
+    },
+    "t15_lstm_autoencoder": {
+      "architecture": "LSTM-AE seq_len=30 hidden=32 epochs=4 stride=5",
+      "detection_rate": "1/7",
+      "lead_time_min_mean": 358.0,
+      "lead_time_min_median": 358.0,
+      "false_alarms_per_week_mean_insample": 2.1591795117855215,
+      "total_runtime_sec": 213.9177782535553
+    },
+    "t16_t17_supervised_risk": {
+      "xgboost": {
+        "detection_rate": "3/7",
+        "lead_time_min_mean": 650.6666666666666,
+        "lead_time_min_median": 720.0,
+        "false_alarms_per_week_mean_insample": 1.9720506207641098,
+        "risk_level_thresholds_mean_across_folds": {
+          "yellow": 8.016437667330528e-06,
+          "orange": 7.076738984324038e-05,
+          "red": 0.00032872880858901354
+        },
+        "per_event": [
+          {
+            "fold": 0,
+            "raw_threshold": 6.633705197600648e-05,
+            "event": 0,
+            "t_broken": "2018-04-12 21:55:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 1,
+            "raw_threshold": 7.497123442590237e-05,
+            "event": 1,
+            "t_broken": "2018-04-18 00:30:00",
+            "detected": true,
+            "lead_time_min": 720.0
+          },
+          {
+            "fold": 2,
+            "raw_threshold": 7.505829125875607e-05,
+            "event": 2,
+            "t_broken": "2018-05-19 03:18:00",
+            "detected": true,
+            "lead_time_min": 720.0
+          },
+          {
+            "fold": 3,
+            "raw_threshold": 6.797302921768278e-05,
+            "event": 3,
+            "t_broken": "2018-05-25 00:30:00",
+            "detected": true,
+            "lead_time_min": 512.0
+          },
+          {
+            "fold": 4,
+            "raw_threshold": 7.388083031401038e-05,
+            "event": 4,
+            "t_broken": "2018-06-28 22:00:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 5,
+            "raw_threshold": 6.859649147372693e-05,
+            "event": 5,
+            "t_broken": "2018-07-08 00:11:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 6,
+            "raw_threshold": 6.855480023659766e-05,
+            "event": 6,
+            "t_broken": "2018-07-25 14:00:00",
+            "detected": false,
+            "lead_time_min": NaN
+          }
+        ]
+      },
+      "lightgbm": {
+        "detection_rate": "3/7",
+        "lead_time_min_mean": 655.0,
+        "lead_time_min_median": 720.0,
+        "false_alarms_per_week_mean_insample": 1.9216697654891142,
+        "risk_level_thresholds_mean_across_folds": {
+          "yellow": 5.887856047059865e-06,
+          "orange": 6.219122640302258e-05,
+          "red": 0.0003061353974588335
+        },
+        "per_event": [
+          {
+            "fold": 0,
+            "raw_threshold": 7.363730455057583e-05,
+            "event": 0,
+            "t_broken": "2018-04-12 21:55:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 1,
+            "raw_threshold": 4.329205019748694e-05,
+            "event": 1,
+            "t_broken": "2018-04-18 00:30:00",
+            "detected": true,
+            "lead_time_min": 720.0
+          },
+          {
+            "fold": 2,
+            "raw_threshold": 8.726671224116382e-05,
+            "event": 2,
+            "t_broken": "2018-05-19 03:18:00",
+            "detected": true,
+            "lead_time_min": 720.0
+          },
+          {
+            "fold": 3,
+            "raw_threshold": 2.3489502070880552e-05,
+            "event": 3,
+            "t_broken": "2018-05-25 00:30:00",
+            "detected": true,
+            "lead_time_min": 525.0
+          },
+          {
+            "fold": 4,
+            "raw_threshold": 0.00011108009863391882,
+            "event": 4,
+            "t_broken": "2018-06-28 22:00:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 5,
+            "raw_threshold": 5.720843510724987e-05,
+            "event": 5,
+            "t_broken": "2018-07-08 00:11:00",
+            "detected": false,
+            "lead_time_min": NaN
+          },
+          {
+            "fold": 6,
+            "raw_threshold": 3.936448201988224e-05,
+            "event": 6,
+            "t_broken": "2018-07-25 14:00:00",
+            "detected": false,
+            "lead_time_min": NaN
+          }
+        ]
+      }
+    },
+    "t19_rul_model": {
+      "label_horizon_min": 720,
+      "late_penalty_multiplier": 2.0,
+      "mae_min_mean_across_folds": 193.75453627904258,
+      "asymmetric_score_min_mean_across_folds": 313.9213263390556,
+      "note": "Each fold's test set is one failure event's ~720 WARNING rows (highly autocorrelated, not independent samples) \u2014 treat as 7 event-level results, not a large statistically independent test set."
+    }
+  },
+  "artifacts": {
+    "version": "v1",
+    "window_min": 720,
+    "n_features": 1045,
+    "risk_thresholds": {
+      "yellow": 8.8997121565626e-06,
+      "orange": 8.100707782432437e-05,
+      "red": 0.00039015774382278323
+    },
+    "train_rows_risk": 205836,
+    "train_rows_rul": 5040
+  },
+  "generated_from": "ml/src/model_registry.py"
+}
