@@ -1,0 +1,65 @@
+{
+  "label_horizon_min": 720,
+  "late_penalty_multiplier": 2.0,
+  "mae_min_mean_across_folds": 193.75453627904258,
+  "asymmetric_score_min_mean_across_folds": 313.9213263390556,
+  "per_fold": [
+    {
+      "fold": 0,
+      "n_val_rows": 720,
+      "mae_min": 178.17446546554567,
+      "asymmetric_score_min": 316.0650521490309,
+      "mean_true_rul": 360.5,
+      "mean_pred_rul": 458.106689453125
+    },
+    {
+      "fold": 1,
+      "n_val_rows": 720,
+      "mae_min": 200.0238782564799,
+      "asymmetric_score_min": 270.08958973354765,
+      "mean_true_rul": 360.5,
+      "mean_pred_rul": 300.6075439453125
+    },
+    {
+      "fold": 2,
+      "n_val_rows": 720,
+      "mae_min": 206.97647133933174,
+      "asymmetric_score_min": 224.439031791687,
+      "mean_true_rul": 360.5,
+      "mean_pred_rul": 188.4486541748047
+    },
+    {
+      "fold": 3,
+      "n_val_rows": 720,
+      "mae_min": 155.2729586283366,
+      "asymmetric_score_min": 283.7078460269504,
+      "mean_true_rul": 360.5,
+      "mean_pred_rul": 462.0968322753906
+    },
+    {
+      "fold": 4,
+      "n_val_rows": 720,
+      "mae_min": 236.253469742669,
+      "asymmetric_score_min": 461.5428432676527,
+      "mean_true_rul": 360.5,
+      "mean_pred_rul": 574.8252563476562
+    },
+    {
+      "fold": 5,
+      "n_val_rows": 720,
+      "mae_min": 163.28353447384305,
+      "asymmetric_score_min": 265.46755038367377,
+      "mean_true_rul": 360.5,
+      "mean_pred_rul": 401.58447265625
+    },
+    {
+      "fold": 6,
+      "n_val_rows": 720,
+      "mae_min": 216.29697604709202,
+      "asymmetric_score_min": 376.1373710208469,
+      "mean_true_rul": 360.5,
+      "mean_pred_rul": 463.8837585449219
+    }
+  ],
+  "note": "Each fold's test set is one failure event's ~720 WARNING rows (highly autocorrelated, not independent samples) \u2014 treat as 7 event-level results, not a large statistically independent test set."
+}
