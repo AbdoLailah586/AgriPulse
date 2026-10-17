@@ -1,0 +1,140 @@
+{
+  "xgboost": {
+    "detection_rate": "3/7",
+    "lead_time_min_mean": 650.6666666666666,
+    "lead_time_min_median": 720.0,
+    "false_alarms_per_week_mean_insample": 1.9720506207641098,
+    "risk_level_thresholds_mean_across_folds": {
+      "yellow": 8.016437667330528e-06,
+      "orange": 7.076738984324038e-05,
+      "red": 0.00032872880858901354
+    },
+    "per_event": [
+      {
+        "fold": 0,
+        "raw_threshold": 6.633705197600648e-05,
+        "event": 0,
+        "t_broken": "2018-04-12 21:55:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 1,
+        "raw_threshold": 7.497123442590237e-05,
+        "event": 1,
+        "t_broken": "2018-04-18 00:30:00",
+        "detected": true,
+        "lead_time_min": 720.0
+      },
+      {
+        "fold": 2,
+        "raw_threshold": 7.505829125875607e-05,
+        "event": 2,
+        "t_broken": "2018-05-19 03:18:00",
+        "detected": true,
+        "lead_time_min": 720.0
+      },
+      {
+        "fold": 3,
+        "raw_threshold": 6.797302921768278e-05,
+        "event": 3,
+        "t_broken": "2018-05-25 00:30:00",
+        "detected": true,
+        "lead_time_min": 512.0
+      },
+      {
+        "fold": 4,
+        "raw_threshold": 7.388083031401038e-05,
+        "event": 4,
+        "t_broken": "2018-06-28 22:00:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 5,
+        "raw_threshold": 6.859649147372693e-05,
+        "event": 5,
+        "t_broken": "2018-07-08 00:11:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 6,
+        "raw_threshold": 6.855480023659766e-05,
+        "event": 6,
+        "t_broken": "2018-07-25 14:00:00",
+        "detected": false,
+        "lead_time_min": NaN
+      }
+    ]
+  },
+  "lightgbm": {
+    "detection_rate": "3/7",
+    "lead_time_min_mean": 655.0,
+    "lead_time_min_median": 720.0,
+    "false_alarms_per_week_mean_insample": 1.9216697654891142,
+    "risk_level_thresholds_mean_across_folds": {
+      "yellow": 5.887856047059865e-06,
+      "orange": 6.219122640302258e-05,
+      "red": 0.0003061353974588335
+    },
+    "per_event": [
+      {
+        "fold": 0,
+        "raw_threshold": 7.363730455057583e-05,
+        "event": 0,
+        "t_broken": "2018-04-12 21:55:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 1,
+        "raw_threshold": 4.329205019748694e-05,
+        "event": 1,
+        "t_broken": "2018-04-18 00:30:00",
+        "detected": true,
+        "lead_time_min": 720.0
+      },
+      {
+        "fold": 2,
+        "raw_threshold": 8.726671224116382e-05,
+        "event": 2,
+        "t_broken": "2018-05-19 03:18:00",
+        "detected": true,
+        "lead_time_min": 720.0
+      },
+      {
+        "fold": 3,
+        "raw_threshold": 2.3489502070880552e-05,
+        "event": 3,
+        "t_broken": "2018-05-25 00:30:00",
+        "detected": true,
+        "lead_time_min": 525.0
+      },
+      {
+        "fold": 4,
+        "raw_threshold": 0.00011108009863391882,
+        "event": 4,
+        "t_broken": "2018-06-28 22:00:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 5,
+        "raw_threshold": 5.720843510724987e-05,
+        "event": 5,
+        "t_broken": "2018-07-08 00:11:00",
+        "detected": false,
+        "lead_time_min": NaN
+      },
+      {
+        "fold": 6,
+        "raw_threshold": 3.936448201988224e-05,
+        "event": 6,
+        "t_broken": "2018-07-25 14:00:00",
+        "detected": false,
+        "lead_time_min": NaN
+      }
+    ]
+  }
+}
