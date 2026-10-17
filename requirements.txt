@@ -26,3 +26,4 @@ redis>=5.0
 # Dev / quality
 pytest>=8.3
 ruff>=0.6
+reportlab==5.0.1
