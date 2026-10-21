@@ -297,9 +297,40 @@ From PowerShell or Command Prompt:
 
 ---
 
+## 🌿 Team Git Branching Strategy & Roles
+
+The repository contains designated branches for each track and team member to facilitate parallel development. All branches originate from the latest baseline and are pushed to GitHub:
+
+| Track / Domain | Team Members | Dedicated Branch | Track Alias Branch | Primary Responsibilities |
+| :--- | :--- | :--- | :--- | :--- |
+| **Frontend UI / SCADA** | **Jana + Ahmad Mostafa** | [`front-jana-ahmad`](https://github.com/AbdoLailah586/AgriPulse/tree/front-jana-ahmad) | `frontend` | Next.js / React dashboard, real-time gauges, alert popups, work order management UI. |
+| **AI Modeling & RAG** | **Ahmad + Tasneem** | [`ai-ahmad-tasneem`](https://github.com/AbdoLailah586/AgriPulse/tree/ai-ahmad-tasneem) | `ai` | Model tuning (XGBoost, LSTM-AE), RUL regressor, ChromaDB RAG work order generation. |
+| **Backend & Cloud APIs** | **Hazem** | [`backend-hazem`](https://github.com/AbdoLailah586/AgriPulse/tree/backend-hazem) | `backend` | FastAPI microservices, Timescale/PostgreSQL ingestion, WebSocket streaming, auth. |
+| **Analytics & Data Eng** | **Nada** | [`analytics-nada`](https://github.com/AbdoLailah586/AgriPulse/tree/analytics-nada) | `analytics` | Telemetry profiling, feature engineering analysis, sensor drift, data quality checks. |
+| **Embedded & Hardware** | **Rowayda + Abdo** | [`hw-rowayda-abdo`](https://github.com/AbdoLailah586/AgriPulse/tree/hw-rowayda-abdo) | `hardware` | ESP32 firmware, sensor wiring (ADXL345, SCT-013, DS18B20), test rig & fault injection. |
+| **Integration & Staging** | **All Teams** | [`integration`](https://github.com/AbdoLailah586/AgriPulse/tree/integration) | `integration` | Central branch where all completed features are merged and tested before final release. |
+| **Project Lead & Master** | **Abdo** | [`Abdo`](https://github.com/AbdoLailah586/AgriPulse/tree/Abdo) | `master` | Main coordination branch, system architecture, documentation, and releases. |
+
+### How to Switch to Your Team Branch:
+```bash
+# Fetch all remote branches from GitHub
+git fetch origin
+
+# Check out your track's branch (example for Frontend team)
+git checkout front-jana-ahmad
+# Or using the alias:
+git checkout frontend
+
+# Pull the latest commits
+git pull origin front-jana-ahmad
+```
+
+---
+
 ## 👥 Graduation Project Team & Supervision
 
 * **Institution:** Faculty of Engineering, Mansoura University
 * **Program:** Artificial Intelligence Engineering Program
 * **Target Competitions:** Dell Technologies Envision the Future, Ebdaa, Cairo ICT, NASA Space Apps.
 * **National Vision:** Directly supporting Egypt's 2030 National Water Security and Precision Agriculture mandates.
+
