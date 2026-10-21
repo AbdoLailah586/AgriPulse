@@ -23,7 +23,7 @@ $ProjectRoot = Split-Path -Parent $ScriptDir
 Set-Location $ProjectRoot
 
 Write-Host "==========================================================" -ForegroundColor Cyan
-Write-Host " AgriPulse — Pull from GitHub (Branch: $Branch)" -ForegroundColor Cyan
+Write-Host " AgriPulse - Pull from GitHub (Branch: $Branch)" -ForegroundColor Cyan
 Write-Host " Working Directory: $ProjectRoot" -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
 
