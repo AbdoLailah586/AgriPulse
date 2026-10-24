@@ -1,0 +1,303 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   AGRIPULSE DESIGN SYSTEM — LIVING INTELLIGENCE
+   NATURE + ENGINEERING + INTELLIGENCE
+   ========================================================= */
+
+:root {
+  /* AgriPulse Core Palette */
+  --bg-page: #F6F5EF;          /* Warm Ivory application canvas */
+  --bg-surface: #FFFFFF;       /* Crisp white surface for cards */
+  --bg-subtle: #EFEFE7;        /* Soft ivory for secondary regions */
+  --bg-sidebar: #F0EFEA;       /* Neutral warm ivory sidebar */
+  --bg-sidebar-hover: #E8E7E0;
+  --bg-evergreen: #102D27;     /* Deep Evergreen high-contrast workspace */
+  --bg-evergreen-card: #153831;
+  --bg-evergreen-hover: #1A463D;
+  --bg-forest: #173F35;        /* Forest Green brand anchor */
+
+  --primary: #173F35;
+  --primary-hover: #113129;
+  --primary-light: rgba(23, 63, 53, 0.08);
+
+  --accent-lime: #C7F36B;      /* Fresh Lime accent & active highlights */
+  --accent-lime-hover: #B5E655;
+  --accent-sage: #DCE7D8;      /* Sage soft background */
+  --accent-sage-subtle: #EDF3EB;
+
+  --text-primary: #252B28;     /* Graphite text */
+  --text-secondary: #858A80;   /* Muted Stone text */
+  --text-muted: #9EABA5;
+  --text-inverse: #F6F5EF;
+  --text-forest: #173F35;
+  --text-lime: #C7F36B;
+
+  --border: #D8D7CD;           /* Razor-thin restrained borders */
+  --border-subtle: #E6E5DC;
+  --border-forest: #173F35;
+  --border-evergreen: #1C4B40;
+
+  /* Industrial Status Indicators */
+  --status-healthy: #173F35;
+  --status-warning: #E7A944;   /* Amber */
+  --status-critical: #D94C45;  /* Signal Red */
+  --status-offline: #858A80;
+
+  /* Typography */
+  --font-family: 'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Shadows */
+  --shadow-subtle: 0 1px 3px rgba(23, 63, 53, 0.04), 0 1px 2px rgba(23, 63, 53, 0.02);
+  --shadow-card: 0 4px 14px rgba(23, 63, 53, 0.05);
+  --shadow-evergreen: 0 12px 30px rgba(16, 45, 39, 0.25);
+}
+
+/* Global resets & typography */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tabular numbers for industrial telemetry readability */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+}
+
+/* AgriPulse Card Surfaces */
+.agri-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  box-shadow: var(--shadow-subtle);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.agri-card:hover {
+  border-color: var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+/* Deep Evergreen Surfaces */
+.agri-evergreen-panel {
+  background-color: var(--bg-evergreen);
+  color: var(--text-inverse);
+  border: 1px solid var(--border-evergreen);
+  border-radius: 8px;
+  box-shadow: var(--shadow-evergreen);
+}
+
+/* AgriPulse Buttons */
+.agri-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.agri-btn-primary {
+  background-color: var(--primary);
+  color: #FFFFFF;
+}
+
+.agri-btn-primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-0.5px);
+}
+
+.agri-btn-lime {
+  background-color: var(--accent-lime);
+  color: #173F35;
+  font-weight: 700;
+}
+
+.agri-btn-lime:hover {
+  background-color: var(--accent-lime-hover);
+  transform: translateY(-0.5px);
+}
+
+.agri-btn-outline {
+  background-color: transparent;
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+.agri-btn-outline:hover {
+  background-color: var(--bg-subtle);
+  border-color: var(--primary);
+}
+
+/* Status Badges */
+.agri-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.agri-badge-healthy {
+  background-color: var(--accent-sage);
+  color: var(--status-healthy);
+}
+
+.agri-badge-warning {
+  background-color: #FDF4E6;
+  color: #925805;
+  border: 1px solid #F5D8A3;
+}
+
+.agri-badge-critical {
+  background-color: #FDECEC;
+  color: #9E1F1A;
+  border: 1px solid #F8B4B1;
+}
+
+.agri-badge-simulation {
+  background-color: #ECEBE4;
+  color: #555A52;
+  border: 1px solid #D5D4CA;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+/* Engineering Water Flow Keyframes */
+@keyframes flow-pulse {
+  0% {
+    stroke-dashoffset: 40;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-water-flow {
+  stroke-dasharray: 6 4;
+  animation: flow-pulse 1.2s linear infinite;
+}
+
+/* Subtle Anomaly Pulse */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+/* Living Intelligence Organic Pulse Rings */
+@keyframes ring-expand {
+  0% { transform: scale(0.94); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 0.3; }
+  100% { transform: scale(0.94); opacity: 0.8; }
+}
+
+.animate-ring-pulse {
+  animation: ring-expand 3.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+.animate-float-gentle {
+  animation: float-gentle 4s ease-in-out infinite;
+}
+
+/* Mobile-First Utilities */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.agri-glass {
+  background: rgba(246, 245, 239, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.agri-glass-white {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.agri-glass-evergreen {
+  background: rgba(16, 45, 39, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Safe area support for iOS / Android mobile devices */
+.pb-safe {
+  padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 1.25rem));
+}
+
+.pt-safe {
+  padding-top: max(0.75rem, env(safe-area-inset-top, 0.75rem));
+}
+
+.mb-safe {
+  margin-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+}
+
+/* Mobile Touch Interactive Cards */
+.agri-mobile-card {
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(23, 63, 53, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.agri-mobile-card:hover {
+  border-color: var(--border);
+  box-shadow: 0 4px 16px rgba(23, 63, 53, 0.08);
+}
+
+.agri-mobile-card:active {
+  transform: scale(0.99);
+}
+
+/* Scrollbar refinement */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(23, 63, 53, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(23, 63, 53, 0.4);
+}

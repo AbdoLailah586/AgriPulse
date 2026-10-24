@@ -1,0 +1,91 @@
+/* MMBadge.css - MONTERA */
+.mm-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    font-family: var(--font-primary, 'Inter', sans-serif);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    gap: 6px;
+}
+
+/* Sizes */
+.mm-badge--sm {
+    padding: 2px 8px;
+    font-size: 10px;
+    height: 20px;
+}
+
+.mm-badge--md {
+    padding: 4px 12px;
+    font-size: 11px;
+    height: 24px;
+}
+
+/* Variants */
+.mm-badge--success {
+    background: rgba(42, 171, 145, 0.15);
+    color: #2AAB91;
+    border: 1px solid rgba(42, 171, 145, 0.3);
+}
+
+.mm-badge--warning {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.mm-badge--error {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.mm-badge--info {
+    background: rgba(31, 129, 128, 0.15);
+    color: #1F8180;
+    border: 1px solid rgba(31, 129, 128, 0.3);
+}
+
+.mm-badge--gold,
+.mm-badge--montera {
+    background: linear-gradient(135deg, rgba(13, 82, 84, 0.2) 0%, rgba(42, 171, 145, 0.2) 100%);
+    color: #2AAB91;
+    border: 1px solid rgba(42, 171, 145, 0.4);
+    box-shadow: 0 0 10px rgba(42, 171, 145, 0.1);
+}
+
+.mm-badge--outline {
+    background: transparent;
+    color: var(--text-muted, #688A8C);
+    border: 1px solid var(--border-color, #E0EBEB);
+}
+
+/* Pulse Animation */
+.mm-badge__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+    animation: mm-pulse 1.5s infinite;
+}
+
+@keyframes mm-pulse {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

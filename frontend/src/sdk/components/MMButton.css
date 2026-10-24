@@ -1,0 +1,105 @@
+/* MMButton.css - MONTERA */
+.mm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: var(--radius-md, 8px);
+    font-family: var(--font-primary, 'Inter', sans-serif);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.mm-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Sizes */
+.mm-btn--sm {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 11px;
+}
+
+.mm-btn--md {
+    height: 40px;
+    padding: 0 20px;
+    font-size: 13px;
+}
+
+.mm-btn--lg {
+    height: 48px;
+    padding: 0 32px;
+    font-size: 15px;
+}
+
+/* Variants */
+.mm-btn--gold,
+.mm-btn--primary,
+.mm-btn--montera {
+    background: linear-gradient(135deg, #0D5254 0%, #2AAB91 100%);
+    color: #FFFFFF;
+    box-shadow: 0 2px 10px rgba(42, 171, 145, 0.25);
+}
+
+.mm-btn--gold:hover:not(:disabled),
+.mm-btn--primary:hover:not(:disabled),
+.mm-btn--montera:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #003F46 0%, #1F8180 100%);
+    box-shadow: 0 4px 15px rgba(42, 171, 145, 0.35);
+}
+
+.mm-btn--glass {
+    background: rgba(13, 82, 84, 0.08);
+    border: 1px solid rgba(42, 171, 145, 0.2);
+    color: var(--text-primary);
+}
+
+.mm-btn--glass:hover:not(:disabled) {
+    background: rgba(42, 171, 145, 0.15);
+    border-color: rgba(42, 171, 145, 0.4);
+}
+
+.mm-btn--danger {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #EF4444;
+}
+
+.mm-btn--danger:hover:not(:disabled) {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.mm-btn--ghost {
+    background: transparent;
+    color: var(--text-muted, #688A8C);
+}
+
+.mm-btn--ghost:hover:not(:disabled) {
+    color: var(--text-primary);
+    background: rgba(42, 171, 145, 0.08);
+}
+
+/* Loader */
+.mm-btn__loader {
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: mm-spin 0.8s linear infinite;
+}
+
+@keyframes mm-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

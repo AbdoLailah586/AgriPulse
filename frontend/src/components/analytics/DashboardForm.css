@@ -1,0 +1,407 @@
+/* DashboardForm - Intelligence Layer Modal
+   MONTERA Design System */
+
+/* =============== OVERLAY =============== */
+.df-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 31, 35, 0.7);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    padding: 24px;
+}
+
+/* =============== MODAL =============== */
+.df-modal {
+    width: 100%;
+    max-width: 820px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 24px 48px rgba(0, 63, 70, 0.25);
+}
+
+.df-modal::-webkit-scrollbar {
+    width: 6px;
+}
+
+.df-modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.df-modal::-webkit-scrollbar-thumb {
+    background: #1F8180;
+    border-radius: 3px;
+}
+
+/* =============== HEADER =============== */
+.df-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 24px 28px 0;
+}
+
+.df-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #2AAB91;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 6px;
+}
+
+.df-title {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.df-close-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.df-close-btn:hover {
+    color: var(--text-primary);
+    border-color: #2AAB91;
+    background: rgba(42, 171, 145, 0.1);
+}
+
+/* =============== ERROR =============== */
+.df-error {
+    margin: 16px 28px 0;
+    padding: 12px 16px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+    color: #EF4444;
+    font-size: 0.85rem;
+}
+
+/* =============== FORM =============== */
+.df-form {
+    padding: 24px 28px 28px;
+}
+
+/* =============== TOP SECTION: 2-COLUMN =============== */
+.df-top-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 700px) {
+    .df-top-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =============== FORM FIELDS =============== */
+.df-field {
+    margin-bottom: 16px;
+}
+
+.df-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #0D5254;
+    margin-bottom: 8px;
+}
+
+.df-input {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.df-input:focus {
+    border-color: #2AAB91;
+    box-shadow: 0 0 0 3px rgba(42, 171, 145, 0.2);
+}
+
+.df-input::placeholder {
+    color: var(--text-muted);
+}
+
+.df-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.df-textarea:focus {
+    border-color: #2AAB91;
+    box-shadow: 0 0 0 3px rgba(42, 171, 145, 0.2);
+}
+
+.df-textarea::placeholder {
+    color: var(--text-muted);
+}
+
+/* =============== COVER IMAGE UPLOAD =============== */
+.df-photo-upload {
+    position: relative;
+}
+
+.df-upload-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 40px 20px;
+    background: var(--bg-hover);
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-secondary);
+    text-align: center;
+    min-height: 180px;
+    box-sizing: border-box;
+}
+
+.df-upload-zone:hover,
+.df-upload-zone.drag-over {
+    border-color: #2AAB91;
+    background: rgba(42, 171, 145, 0.08);
+    color: #2AAB91;
+}
+
+.df-upload-link {
+    color: #2AAB91;
+    font-weight: 600;
+}
+
+.df-upload-hint {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.df-file-input {
+    display: none;
+}
+
+.df-photo-preview {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px dashed var(--border);
+    min-height: 180px;
+}
+
+.df-preview-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.df-remove-photo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.df-remove-photo:hover {
+    background: #EF4444;
+    transform: scale(1.1);
+}
+
+/* =============== CHECKBOX =============== */
+.df-checkbox-group {
+    margin-bottom: 24px;
+}
+
+.df-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+.df-checkbox-label:hover {
+    color: var(--text-primary);
+}
+
+.df-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    accent-color: #2AAB91;
+    flex-shrink: 0;
+}
+
+/* =============== AI CONFIGURATION SECTION =============== */
+.df-ai-section {
+    background: var(--bg-hover);
+    border: 1px solid rgba(42, 171, 145, 0.2);
+    border-radius: 12px;
+    padding: 20px 24px 10px;
+    margin-bottom: 24px;
+}
+
+.df-ai-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #2AAB91;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 16px;
+}
+
+.df-ai-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 700px) {
+    .df-ai-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =============== FOOTER ACTIONS =============== */
+.df-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.df-cancel-btn {
+    padding: 12px 28px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: none;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.df-cancel-btn:hover {
+    color: var(--text-primary);
+}
+
+.df-submit-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 36px;
+    background: linear-gradient(135deg, #0D5254 0%, #2AAB91 100%);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(42, 171, 145, 0.25);
+}
+
+.df-submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(42, 171, 145, 0.35);
+    background: linear-gradient(135deg, #003F46 0%, #1F8180 100%);
+}
+
+.df-submit-btn:disabled,
+.df-cancel-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* =============== RTL SUPPORT =============== */
+[dir="rtl"] .df-header {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .df-badge {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .df-remove-photo {
+    right: auto;
+    left: 10px;
+}
+
+[dir="rtl"] .df-checkbox-label {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}

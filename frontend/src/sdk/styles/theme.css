@@ -1,0 +1,149 @@
+/**
+ * MONTERA Fintech Design System Theme
+ * Deep Teal (#0D5254), Teal (#1F8180), Mint Green (#2AAB91), Dark Teal (#003F46)
+ */
+
+/* ========================================
+   LIGHT MODE (Default)
+   ======================================== */
+:root,
+[data-theme="light"] {
+    /* Background Colors */
+    --bg-page: #F8FAFA;
+    --bg-surface: #FFFFFF;
+    --bg-card: #FFFFFF;
+    --bg-input: #F0F5F5;
+    --bg-hover: #E8F2F2;
+    --bg-sidebar: #003F46;
+    --bg-sidebar-hover: #0D5254;
+
+    /* Text Colors */
+    --text-primary: #003F46;
+    --text-secondary: #4D6B6C;
+    --text-muted: #6E8D8E;
+    --text-main: #003F46;
+    --text-inverse: #FFFFFF;
+
+    /* Border Colors */
+    --border: #E0EBEB;
+    --border-color: #E0EBEB;
+    --border-subtle: #EDF4F4;
+
+    /* Brand Colors */
+    --primary: #0D5254;
+    --primary-color: #0D5254;
+    --primary-hover: #003F46;
+    --accent: #2AAB91;
+    --accent-color: #2AAB91;
+    --brand-teal: #1F8180;
+    --brand-mint: #2AAB91;
+    --brand-dark-teal: #003F46;
+    --brand-deep-teal: #0D5254;
+
+    /* Semantic Colors */
+    --success-color: #2AAB91;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --info-color: #1F8180;
+
+    /* Border Radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* Typography */
+    --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Outfit', sans-serif;
+    --font-mono: 'Fira Code', 'Courier New', monospace;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(13, 82, 84, 0.05);
+    --shadow-md: 0 4px 12px rgba(13, 82, 84, 0.08);
+    --shadow-lg: 0 10px 25px -5px rgba(13, 82, 84, 0.12);
+
+    /* Z-Index Layers */
+    --z-dropdown: 1000;
+    --z-modal: 2000;
+    --z-toast: 3000;
+}
+
+/* ========================================
+   DARK MODE
+   ======================================== */
+[data-theme="dark"] {
+    /* Background Colors */
+    --bg-page: #001A1D;
+    --bg-surface: #002B30;
+    --bg-card: #002B30;
+    --bg-input: #001A1D;
+    --bg-hover: #0D5254;
+    --bg-sidebar: #001518;
+    --bg-sidebar-hover: #002B30;
+
+    /* Text Colors */
+    --text-primary: #FFFFFF;
+    --text-secondary: #A0C2C3;
+    --text-muted: #6B9192;
+    --text-main: #FFFFFF;
+    --text-inverse: #001A1D;
+
+    /* Border Colors */
+    --border: #0D5254;
+    --border-color: #0D5254;
+    --border-subtle: #003F46;
+
+    /* Brand Colors */
+    --primary: #2AAB91;
+    --primary-color: #2AAB91;
+    --primary-hover: #1F8180;
+    --accent: #2AAB91;
+    --accent-color: #2AAB91;
+    --brand-teal: #1F8180;
+    --brand-mint: #2AAB91;
+    --brand-dark-teal: #003F46;
+    --brand-deep-teal: #0D5254;
+
+    /* Semantic Colors */
+    --success-color: #2AAB91;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --info-color: #1F8180;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
+   UTILITY: Montera Brand Gradients
+   ======================================== */
+.montera-gradient {
+    background: linear-gradient(135deg, #0D5254 0%, #2AAB91 100%);
+}
+
+.mint-gradient {
+    background: linear-gradient(135deg, #1F8180 0%, #2AAB91 100%);
+}
+
+.gold-gradient {
+    background: linear-gradient(135deg, #0D5254 0%, #2AAB91 100%);
+}
+
+/* ========================================
+   UTILITY: Glassmorphism
+   ======================================== */
+.glass-effect {
+    background: rgba(13, 82, 84, 0.06);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(42, 171, 145, 0.2);
+}
