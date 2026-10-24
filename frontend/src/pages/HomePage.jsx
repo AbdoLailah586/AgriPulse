@@ -15,23 +15,17 @@ import {
     ACTIVITIES 
 } from '../services/agriPulseData';
 import { pumpService } from '../services/api';
+import { useTranslation } from 'react-i18next';
 
 /**
  * HomePage — Overview Dashboard (Signature Screen)
- * 
- * Recreated from AgriPulse Living Intelligence design prototype:
- * - Editorial masthead with provenance tag and quick action CTAs
- * - Fleet Operational State KPI matrix with critical anomaly card and 3-color reliability bar
- * - Monitored Assets list with interactive selection
- * - Interactive CAD Digital Twin Centrifugal Pump SVG Schematic with probe readouts
- * - 24-Hour Telemetry Analysis chart with metric switcher tabs (Vibration, Temp, Pressure, Current)
- * - Intelligence Briefing with prescriptive RAG recommendations
- * - Chronological Activity Stream audit log
  */
 const HomePage = () => {
     const navigate = useNavigate();
     const outletContext = useOutletContext();
     const selectedSector = outletContext?.selectedSector;
+    const { t, i18n } = useTranslation();
+    const isArabic = i18n.language === 'ar';
 
     const [pumps, setPumps] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -105,19 +99,19 @@ const HomePage = () => {
                 <div>
                     <div className="flex items-center gap-2 mb-1">
                         <span className="text-[0.68rem] font-mono tracking-widest uppercase font-extrabold px-2 py-0.5 rounded bg-[#173F35] text-[#C7F36B]">
-                            AUTONOMOUS FLEET RADAR
+                            {t('agriPulse.home.radarBadge', 'AUTONOMOUS FLEET RADAR')}
                         </span>
                         <span className="text-[0.68rem] font-mono px-2 py-0.5 rounded bg-[#ECEBE4] text-[#555A52] border border-[#D5D4CA]">
-                            {DATA_PROVENANCE?.dataSource || 'SIMULATED_BENCHMARK_FIXTURE'}
+                            {isArabic ? t('agriPulse.home.fixtureBadge', 'بيانات قياسية محاكاة') : (DATA_PROVENANCE?.dataSource || 'SIMULATED_BENCHMARK_FIXTURE')}
                         </span>
                     </div>
                     <h1 className="text-3xl md:text-4xl font-extrabold text-[#173F35] tracking-tight">
-                        Your irrigation network, in focus.
+                        {t('agriPulse.home.headline', 'Your irrigation network, in focus.')}
                     </h1>
                     <p className="text-xs md:text-sm text-[#858A80] mt-1 max-w-2xl leading-relaxed">
-                        Continuous mechanical telemetry, cavitation forecasting, and automated hydraulic balance across{' '}
+                        {t('agriPulse.home.description', 'Continuous mechanical telemetry, cavitation forecasting, and automated hydraulic balance across')}{' '}
                         <strong className="text-[#252B28]">
-                            {selectedSector ? selectedSector.name : 'All 3 Irrigation Sectors (18 Smart Pumps)'}
+                            {selectedSector ? selectedSector.name : t('agriPulse.home.allSectors18', 'All 3 Irrigation Sectors (18 Smart Pumps)')}
                         </strong>.
                     </p>
                 </div>
@@ -128,14 +122,14 @@ const HomePage = () => {
                         className="agri-btn agri-btn-lime text-xs"
                     >
                         <Sparkles size={14} />
-                        <span>Failure Forecast</span>
+                        <span>{t('agriPulse.home.failureForecastBtn', 'Failure Forecast')}</span>
                     </button>
                     <button 
                         onClick={() => navigate('/operations')} 
                         className="agri-btn agri-btn-outline text-xs bg-white"
                     >
                         <Activity size={14} />
-                        <span>Fleet Matrix</span>
+                        <span>{t('agriPulse.home.fleetMatrixBtn', 'Fleet Matrix')}</span>
                     </button>
                 </div>
             </div>
@@ -165,40 +159,48 @@ const HomePage = () => {
                         <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-[#F0EFEA]">
                             <h3 className="text-xs font-extrabold tracking-wider text-[#173F35] uppercase flex items-center gap-2">
                                 <span className="w-2 h-2 rounded-full bg-[#173F35]"></span>
-                                Fleet Operational State
+                                {t('agriPulse.home.fleetOperationalState', 'Fleet Operational State')}
                             </h3>
                             <span className="text-xs font-mono text-[#858A80]">
-                                Total Load: {totalPower.toFixed(1)} kW
+                                {t('agriPulse.home.totalLoad', 'Total Load')}: {totalPower.toFixed(1)} kW
                             </span>
                         </div>
 
                         {/* Top KPI Metric Numbers */}
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-5">
                             <div>
-                                <div className="text-[0.68rem] uppercase font-semibold text-[#858A80]">Monitored Assets</div>
-                                <div className="text-2xl font-extrabold text-[#173F35] font-mono mt-0.5">
-                                    {totalCount} <span className="text-xs text-[#858A80] font-normal">Pumps</span>
+                                <div className="text-[0.68rem] uppercase font-semibold text-[#858A80]">
+                                    {t('agriPulse.home.monitoredAssets', 'Monitored Assets')}
                                 </div>
-                                <div className="text-[0.68rem] text-[#858A80]">3 Sectors Active</div>
+                                <div className="text-2xl font-extrabold text-[#173F35] font-mono mt-0.5">
+                                    {totalCount} <span className="text-xs text-[#858A80] font-normal">{t('agriPulse.home.pumps', 'Pumps')}</span>
+                                </div>
+                                <div className="text-[0.68rem] text-[#858A80]">{t('agriPulse.home.sectorsActive', '3 Sectors Active')}</div>
                             </div>
                             <div>
-                                <div className="text-[0.68rem] uppercase font-semibold text-[#858A80]">Total Delivery</div>
+                                <div className="text-[0.68rem] uppercase font-semibold text-[#858A80]">
+                                    {t('agriPulse.home.totalDelivery', 'Total Delivery')}
+                                </div>
                                 <div className="text-2xl font-extrabold text-[#173F35] font-mono mt-0.5">
                                     {totalFlow.toLocaleString()} <span className="text-xs text-[#858A80] font-normal">L/min</span>
                                 </div>
-                                <div className="text-[0.68rem] text-[#173F35] font-semibold">92% Target Flow</div>
+                                <div className="text-[0.68rem] text-[#173F35] font-semibold">{t('agriPulse.home.targetFlow', '92% Target Flow')}</div>
                             </div>
                             <div>
-                                <div className="text-[0.68rem] uppercase font-semibold text-[#2E7D32]">Optimal Units</div>
-                                <div className="text-2xl font-extrabold text-[#2E7D32] font-mono mt-0.5">{healthyCount}</div>
-                                <div className="text-[0.68rem] text-[#2E7D32] font-semibold">{healthyPct}% Healthy</div>
-                            </div>
-                            <div>
-                                <div className="text-[0.68rem] uppercase font-semibold text-[#D94C45]">Urgent Intervention</div>
-                                <div className="text-2xl font-extrabold text-[#D94C45] font-mono mt-0.5">
-                                    {criticalCount} <span className="text-xs font-normal text-[#858A80]">unit</span>
+                                <div className="text-[0.68rem] uppercase font-semibold text-[#2E7D32]">
+                                    {t('agriPulse.home.optimalUnits', 'Optimal Units')}
                                 </div>
-                                <div className="text-[0.68rem] text-[#D94C45] font-semibold">P-04 Cavitation</div>
+                                <div className="text-2xl font-extrabold text-[#2E7D32] font-mono mt-0.5">{healthyCount}</div>
+                                <div className="text-[0.68rem] text-[#2E7D32] font-semibold">{healthyPct}% {t('agriPulse.home.healthy', 'Healthy')}</div>
+                            </div>
+                            <div>
+                                <div className="text-[0.68rem] uppercase font-semibold text-[#D94C45]">
+                                    {t('agriPulse.home.urgentIntervention', 'Urgent Intervention')}
+                                </div>
+                                <div className="text-2xl font-extrabold text-[#D94C45] font-mono mt-0.5">
+                                    {criticalCount} <span className="text-xs font-normal text-[#858A80]">{t('agriPulse.home.unit', 'unit')}</span>
+                                </div>
+                                <div className="text-[0.68rem] text-[#D94C45] font-semibold">P-04 {isArabic ? 'تكهف الكرسي' : 'Cavitation'}</div>
                             </div>
                         </div>
 
@@ -208,13 +210,13 @@ const HomePage = () => {
                                 <AlertTriangle size={18} className="text-[#D94C45] mt-0.5 flex-shrink-0" />
                                 <div className="text-xs">
                                     <div className="font-bold text-[#9E1F1A] flex flex-wrap items-center gap-2">
-                                        <span>CRITICAL ANOMALY: Pump P-04 Bearing Cavitation</span>
+                                        <span>{t('agriPulse.home.criticalAnomaly', 'CRITICAL ANOMALY: Pump P-04 Bearing Cavitation')}</span>
                                         <span className="font-mono text-[0.7rem] bg-[#FAD9D7] px-1.5 py-0.2 rounded text-[#8A1612]">
-                                            RUL: 38 Operating Hours
+                                            {t('agriPulse.home.rulHours', 'RUL: 38 Operating Hours')}
                                         </span>
                                     </div>
                                     <p className="text-[#7A1C18] mt-1 leading-relaxed text-[0.75rem]">
-                                        Vibration RMS reached 5.84 mm/s at 1.48 kHz harmonic peak. Risk of inner raceway micro-spalling. Immediate VFD throttle to 45 Hz recommended.
+                                        {t('agriPulse.home.criticalBannerText', 'Vibration RMS reached 5.84 mm/s at 1.48 kHz harmonic peak. Risk of inner raceway micro-spalling. Immediate VFD throttle to 45 Hz recommended.')}
                                     </p>
                                 </div>
                             </div>
@@ -225,7 +227,7 @@ const HomePage = () => {
                                 }} 
                                 className="px-3.5 py-2 rounded-lg bg-[#D94C45] text-white font-bold text-xs hover:bg-[#B33832] transition-colors flex-shrink-0 self-end sm:self-auto"
                             >
-                                Inspect Risk
+                                {t('agriPulse.home.inspectRisk', 'Inspect Risk')}
                             </button>
                         </div>
                     </div>
@@ -233,9 +235,9 @@ const HomePage = () => {
                     {/* Fleet Reliability Proportion Bar */}
                     <div className="mt-6 pt-4 border-t border-[#F0EFEA]">
                         <div className="flex justify-between text-xs font-semibold text-[#858A80] mb-2">
-                            <span>Fleet Reliability Proportion</span>
+                            <span>{t('agriPulse.home.fleetReliability', 'Fleet Reliability Proportion')}</span>
                             <span className="font-mono text-[0.7rem]">
-                                {healthyPct}% Optimal • {warningPct}% Caution • {criticalPct}% Urgent
+                                {healthyPct}% {t('agriPulse.home.optimal', 'Optimal')} • {warningPct}% {t('agriPulse.home.caution', 'Caution')} • {criticalPct}% {t('agriPulse.home.urgent', 'Urgent')}
                             </span>
                         </div>
                         <div className="h-2.5 w-full bg-[#EFEFE7] rounded-full overflow-hidden flex">
@@ -251,9 +253,11 @@ const HomePage = () => {
                     <div>
                         <div className="flex items-center justify-between pb-3.5 mb-3 border-b border-[#F0EFEA]">
                             <h3 className="text-xs font-extrabold tracking-wider text-[#173F35] uppercase">
-                                Monitored Assets ({activePumps.length})
+                                {t('agriPulse.home.monitoredAssetsTitle', 'Monitored Assets')} ({activePumps.length})
                             </h3>
-                            <span className="text-[0.68rem] text-[#858A80] font-mono">Click to inspect</span>
+                            <span className="text-[0.68rem] text-[#858A80] font-mono">
+                                {t('agriPulse.home.clickToInspect', 'Click to inspect')}
+                            </span>
                         </div>
 
                         <div className="divide-y divide-[#F6F5EF] max-h-72 overflow-y-auto mt-2 space-y-1.5 pr-1">
@@ -296,7 +300,7 @@ const HomePage = () => {
                     </div>
 
                     <div className="mt-5 pt-4 border-t border-[#F0EFEA] text-xs text-[#858A80] flex justify-between items-center">
-                        <span>Digital Twin Target:</span>
+                        <span>{t('agriPulse.home.digitalTwinTarget', 'Digital Twin Target:')}</span>
                         <span className="font-mono font-bold text-[#173F35] bg-[#DCE7D8] px-2 py-0.5 rounded text-[0.7rem]">{activePump.id}</span>
                     </div>
                 </div>
@@ -307,14 +311,14 @@ const HomePage = () => {
                 <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
                     <div className="flex items-center gap-2">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-[#173F35]">
-                            CAD Digital Twin Schematic & Telemetry Probes
+                            {t('agriPulse.home.digitalTwinTitle', 'CAD Digital Twin Schematic & Telemetry Probes')}
                         </span>
                         <span className="text-[0.68rem] font-mono px-2 py-0.5 rounded bg-[#ECEBE4] text-[#555A52] border border-[#D5D4CA]">
-                            Focus: {activePump.name}
+                            {isArabic ? 'التركيز على:' : 'Focus:'} {activePump.name}
                         </span>
                     </div>
                     <span className="text-[0.7rem] text-[#858A80]">
-                        Click on probes (VIB, TEMP, BAR, AMPS) to view live readings
+                        {isArabic ? 'انقر على المجسات (VIB, TEMP, BAR, AMPS) لعرض القراءات اللحظية' : 'Click on probes (VIB, TEMP, BAR, AMPS) to view live readings'}
                     </span>
                 </div>
 
@@ -333,24 +337,24 @@ const HomePage = () => {
                         <div>
                             <div className="flex items-center gap-2">
                                 <h3 className="text-xs font-extrabold tracking-wider text-[#173F35] uppercase">
-                                    24-Hour Telemetry Analysis
+                                    {t('agriPulse.home.telemetry24h', '24-Hour Telemetry Analysis')}
                                 </h3>
                                 <span className="text-[0.68rem] font-mono px-1.5 py-0.5 rounded bg-[#ECEBE4] text-[#555A52] border border-[#D5D4CA]">
                                     ISO 10816 CLASS II
                                 </span>
                             </div>
                             <p className="text-[0.7rem] text-[#858A80] mt-0.5">
-                                Parameter: <strong className="text-[#173F35] uppercase">{selectedSensorMetric}</strong> on {activePump.id}
+                                {isArabic ? 'المتغير المعروض:' : 'Parameter:'} <strong className="text-[#173F35] uppercase">{t(`agriPulse.home.${selectedSensorMetric}Tab`, selectedSensorMetric)}</strong> on {activePump.id}
                             </p>
                         </div>
 
                         {/* Metric Switcher Tabs */}
                         <div className="flex gap-1 bg-[#EFEFE7] p-1 rounded-lg text-[0.7rem] font-semibold">
                             {[
-                                { id: 'vibration', label: 'Vibration' },
-                                { id: 'temperature', label: 'Temp' },
-                                { id: 'pressure', label: 'Pressure' },
-                                { id: 'current', label: 'Current' }
+                                { id: 'vibration', label: t('agriPulse.home.vibrationTab', 'Vibration') },
+                                { id: 'temperature', label: t('agriPulse.home.temperatureTab', 'Temp') },
+                                { id: 'pressure', label: t('agriPulse.home.pressureTab', 'Pressure') },
+                                { id: 'current', label: t('agriPulse.home.currentTab', 'Current') }
                             ].map(tab => (
                                 <button
                                     key={tab.id}
@@ -422,9 +426,9 @@ const HomePage = () => {
                     <div className="mt-4 pt-3.5 border-t border-[#F0EFEA] flex justify-between text-xs text-[#858A80]">
                         <span className="flex items-center gap-1.5">
                             <span className="w-2 h-2 rounded-full bg-[#D94C45]"></span>
-                            <span>12:00 UTC: Vibration breached ISO 10816 Zone C alert limit (4.5 mm/s)</span>
+                            <span>{t('agriPulse.home.chartAlert', '12:00 UTC: Vibration breached ISO 10816 Zone C alert limit (4.5 mm/s)')}</span>
                         </span>
-                        <span className="font-mono text-[#D94C45] font-bold">Peak: 5.88 mm/s</span>
+                        <span className="font-mono text-[#D94C45] font-bold">{t('agriPulse.home.chartPeak', 'Peak: 5.88 mm/s')}</span>
                     </div>
                 </div>
 
@@ -434,10 +438,10 @@ const HomePage = () => {
                         <div className="flex items-center justify-between pb-3.5 mb-3 border-b border-[#F0EFEA]">
                             <h3 className="text-xs font-extrabold tracking-wider text-[#173F35] uppercase flex items-center gap-2">
                                 <Sparkles size={14} className="text-[#173F35]" />
-                                Intelligence Briefing
+                                {t('agriPulse.home.briefingTitle', 'Intelligence Briefing')}
                             </h3>
                             <span className="text-[0.68rem] font-mono px-1.5 py-0.5 rounded bg-[#ECEBE4] text-[#555A52] border border-[#D5D4CA]">
-                                RAG EVIDENCE
+                                {t('agriPulse.home.ragEvidence', 'RAG EVIDENCE')}
                             </span>
                         </div>
 
@@ -457,7 +461,7 @@ const HomePage = () => {
                                         {b.summary}
                                     </p>
                                     <div className="mt-2.5 text-[0.7rem] bg-white p-2 rounded-lg border border-[#E6E5DC] text-[#173F35]">
-                                        <strong>Prescription:</strong> {b.recommendedAction || b.recommendation}
+                                        <strong>{t('agriPulse.home.prescription', 'Prescription')}:</strong> {b.recommendedAction || b.recommendation}
                                     </div>
                                 </div>
                             ))}
@@ -468,8 +472,8 @@ const HomePage = () => {
                         onClick={() => navigate('/diagnostics')} 
                         className="mt-5 w-full py-2.5 rounded-lg bg-[#173F35] text-white font-bold text-xs hover:bg-[#12332B] transition-colors flex items-center justify-center gap-1.5 shadow-xs"
                     >
-                        <span>Open Technical AI Diagnostics</span>
-                        <ChevronRight size={14} />
+                        <span>{t('agriPulse.home.openDiagnostics', 'Open Technical AI Diagnostics')}</span>
+                        <ChevronRight size={14} className={isArabic ? 'rotate-180' : ''} />
                     </button>
                 </div>
             </div>
@@ -479,9 +483,9 @@ const HomePage = () => {
                 <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-[#F0EFEA]">
                     <h3 className="text-xs font-extrabold tracking-wider text-[#173F35] uppercase flex items-center gap-2">
                         <Clock size={14} className="text-[#173F35]" />
-                        Chronological Activity Stream
+                        {t('agriPulse.home.activityStream', 'Chronological Activity Stream')}
                     </h3>
-                    <span className="text-xs text-[#858A80]">Continuous Telemetry Event Audit</span>
+                    <span className="text-xs text-[#858A80]">{t('agriPulse.home.activitySubtitle', 'Continuous Telemetry Event Audit')}</span>
                 </div>
 
                 <div className="divide-y divide-[#F6F5EF] mt-2">
@@ -495,7 +499,11 @@ const HomePage = () => {
                                     a.type === 'MAINTENANCE' ? 'bg-[#173F35] text-white' :
                                     'bg-[#DCE7D8] text-[#173F35]'
                                 }`}>
-                                    {a.type}
+                                    {isArabic ? (
+                                        a.type === 'CRITICAL' ? 'حرج' :
+                                        a.type === 'ACTION' ? 'إجراء' :
+                                        a.type === 'MAINTENANCE' ? 'صيانة' : 'معلومات'
+                                    ) : a.type}
                                 </span>
                                 <span className="text-[#252B28] font-medium">{a.text}</span>
                             </div>

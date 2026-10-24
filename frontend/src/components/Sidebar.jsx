@@ -18,11 +18,13 @@ import {
 import AgriPulseBrandMark from './AgriPulseBrandMark';
 import { authService } from '../services/api';
 import LanguageSwitcher from './LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 import './Sidebar.css';
 
 const TELEMETRY_NAV_ITEMS = [
     {
         id: 'overview',
+        key: 'overview',
         label: 'Overview',
         path: '/',
         icon: LayoutDashboard,
@@ -30,6 +32,7 @@ const TELEMETRY_NAV_ITEMS = [
     },
     {
         id: 'operations',
+        key: 'operations',
         label: 'Live Operations',
         path: '/operations',
         icon: Activity,
@@ -37,6 +40,7 @@ const TELEMETRY_NAV_ITEMS = [
     },
     {
         id: 'predictive',
+        key: 'predictive',
         label: 'Predictive Intelligence',
         path: '/predictive',
         icon: BrainCircuit,
@@ -45,6 +49,7 @@ const TELEMETRY_NAV_ITEMS = [
     },
     {
         id: 'diagnostics',
+        key: 'diagnostics',
         label: 'AI Diagnostics',
         path: '/diagnostics',
         icon: Sparkles,
@@ -52,6 +57,7 @@ const TELEMETRY_NAV_ITEMS = [
     },
     {
         id: 'field-vision',
+        key: 'fieldVision',
         label: 'Field Vision',
         path: '/field-vision',
         icon: ScanEye,
@@ -62,6 +68,7 @@ const TELEMETRY_NAV_ITEMS = [
 const WORKFLOW_NAV_ITEMS = [
     {
         id: 'assets',
+        key: 'assets',
         label: 'Pump Assets',
         path: '/assets',
         icon: Layers,
@@ -69,6 +76,7 @@ const WORKFLOW_NAV_ITEMS = [
     },
     {
         id: 'maintenance',
+        key: 'maintenance',
         label: 'Maintenance',
         path: '/maintenance',
         icon: Wrench,
@@ -77,6 +85,7 @@ const WORKFLOW_NAV_ITEMS = [
     },
     {
         id: 'analytics',
+        key: 'analytics',
         label: 'Analytics',
         path: '/analytics',
         icon: BarChart3,
@@ -84,6 +93,7 @@ const WORKFLOW_NAV_ITEMS = [
     },
     {
         id: 'settings',
+        key: 'settings',
         label: 'Settings',
         path: '/settings',
         icon: Settings,
@@ -91,6 +101,7 @@ const WORKFLOW_NAV_ITEMS = [
     },
     {
         id: 'login',
+        key: 'login',
         label: 'Login Screen',
         path: '/login',
         icon: Lock,
@@ -101,6 +112,7 @@ const WORKFLOW_NAV_ITEMS = [
 const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { t } = useTranslation();
 
     // User data from session or default demo engineer
     const [userData] = useState(() => {
@@ -136,14 +148,15 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
         return location.pathname.startsWith(path);
     };
 
-    const renderNavSection = (items, sectionTitle) => (
+    const renderNavSection = (items, sectionKey, defaultSectionTitle) => (
         <>
             <div className="agri-nav-section-title">
-                {!isCollapsed && <span>{sectionTitle}</span>}
+                {!isCollapsed && <span>{t(`agriPulse.nav.${sectionKey}`, defaultSectionTitle)}</span>}
             </div>
             {items.map((item) => {
                 const active = isActive(item.path);
                 const IconComponent = item.icon;
+                const localizedLabel = t(`agriPulse.nav.${item.key}`, item.label);
 
                 return (
                     <button
@@ -151,7 +164,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
                         type="button"
                         className={`agri-nav-item ${active ? 'active' : ''}`}
                         onClick={() => navigate(item.path)}
-                        title={isCollapsed ? item.label : undefined}
+                        title={isCollapsed ? localizedLabel : undefined}
                     >
                         <span className="agri-nav-icon-wrapper">
                             <IconComponent size={18} className="agri-nav-icon" />
@@ -159,7 +172,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
 
                         {!isCollapsed && (
                             <span className="agri-nav-label-container">
-                                <span className="agri-nav-label">{item.label}</span>
+                                <span className="agri-nav-label">{localizedLabel}</span>
                                 {item.badge && (
                                     <span className={`agri-nav-badge ${
                                         item.isAlert ? 'badge-alert' : ''
@@ -204,9 +217,9 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
 
             {/* Navigation links */}
             <nav className="agri-sidebar-nav">
-                {renderNavSection(TELEMETRY_NAV_ITEMS, 'Telemetry & AI')}
+                {renderNavSection(TELEMETRY_NAV_ITEMS, 'telemetrySection', 'Telemetry & AI')}
                 <div className="my-1 border-t border-[#E6E5DC]/50" />
-                {renderNavSection(WORKFLOW_NAV_ITEMS, 'Assets & Workflows')}
+                {renderNavSection(WORKFLOW_NAV_ITEMS, 'assetsSection', 'Assets & Workflows')}
             </nav>
 
             {/* Footer with user plate and quick actions */}
@@ -218,7 +231,9 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
                         </div>
                         <div className="agri-user-info min-w-0">
                             <div className="agri-user-name truncate">{userData.name}</div>
-                            <div className="agri-user-role truncate">{userData.role}</div>
+                            <div className="agri-user-role truncate">
+                                {t('agriPulse.topbar.leadEngineer', userData.role)}
+                            </div>
                         </div>
                     </div>
                 )}
@@ -234,10 +249,10 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
                         type="button"
                         onClick={handleLogout}
                         className="agri-footer-btn text-[#D94C45] hover:bg-[#FDECEC]"
-                        title="Sign Out"
+                        title={t('agriPulse.nav.signOut', 'Sign Out')}
                     >
                         <LogOut size={16} />
-                        {!isCollapsed && <span>Sign Out</span>}
+                        {!isCollapsed && <span>{t('agriPulse.nav.signOut', 'Sign Out')}</span>}
                     </button>
                 </div>
             </div>

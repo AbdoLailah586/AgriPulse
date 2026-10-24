@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * PumpSchematic — Interactive CAD Digital Twin Component
@@ -10,6 +11,9 @@ import React from 'react';
  * Recreated from AgriPulse Living Intelligence design prototype.
  */
 const PumpSchematic = ({ pump, activeMetric = 'vibration', onSelectMetric }) => {
+    const { t, i18n } = useTranslation();
+    const isArabic = i18n.language === 'ar';
+
     if (!pump) return null;
 
     const isCritical = pump.status === 'CRITICAL';
@@ -42,17 +46,17 @@ const PumpSchematic = ({ pump, activeMetric = 'vibration', onSelectMetric }) => 
                             </span>
                         </div>
                         <div className="text-[0.7rem] text-[#A0ABA4] font-mono">
-                            SN: {pump.serial || 'GF-2024-9941-K'} • Centrifugal End-Suction
+                            SN: {pump.serial || 'GF-2024-9941-K'} • {isArabic ? 'طرد مركزي سحب طرفي' : 'Centrifugal End-Suction'}
                         </div>
                     </div>
                 </div>
 
                 <div className="flex items-center gap-2 text-[0.68rem] font-mono">
                     <span className="px-2 py-0.5 rounded bg-[#1A463D] text-[#DCE7D8] border border-[#22574C]">
-                        ISO 10816 CLASS II
+                        {t('agriPulse.schematic.isoClass', 'ISO 10816 CLASS II')}
                     </span>
                     <span className="px-2 py-0.5 rounded bg-white/10 text-[#C7F36B] font-bold">
-                        CAD SCHEMATIC
+                        {t('agriPulse.schematic.cadSchematic', 'CAD SCHEMATIC')}
                     </span>
                 </div>
             </div>
@@ -209,8 +213,8 @@ const PumpSchematic = ({ pump, activeMetric = 'vibration', onSelectMetric }) => 
                 {/* Live Probe Readouts Panel */}
                 <div className="w-full lg:w-64 flex flex-col gap-2.5">
                     <div className="text-[0.7rem] uppercase tracking-wider font-extrabold text-[#C7F36B] pb-1 border-b border-[#1C4B40] flex justify-between">
-                        <span>TELEMETRY PROBES</span>
-                        <span className="font-mono text-[#A0ABA4]">LIVE 2.5s</span>
+                        <span>{t('agriPulse.schematic.telemetryProbes', 'TELEMETRY PROBES')}</span>
+                        <span className="font-mono text-[#A0ABA4]">{t('agriPulse.schematic.liveRate', 'LIVE 2.5s')}</span>
                     </div>
 
                     {/* Vibration Card */}
@@ -224,18 +228,18 @@ const PumpSchematic = ({ pump, activeMetric = 'vibration', onSelectMetric }) => 
                         }`}
                     >
                         <div className="flex justify-between items-center text-xs">
-                            <span className="text-[#DCE7D8]">Bearing Vibration</span>
+                            <span className="text-[#DCE7D8]">{t('agriPulse.schematic.bearingVibration', 'Bearing Vibration')}</span>
                             <span className={`text-[0.65rem] font-bold font-mono px-1.5 py-0.5 rounded ${
                                 isCritical ? 'bg-[#D94C45] text-white' : 'bg-[#C7F36B] text-[#102D27]'
                             }`}>
-                                {isCritical ? 'ALERT' : 'NOMINAL'}
+                                {isCritical ? t('agriPulse.schematic.alert', 'ALERT') : t('agriPulse.schematic.nominal', 'NOMINAL')}
                             </span>
                         </div>
                         <div className="text-xl font-bold font-mono text-white mt-1">
-                            {metrics.vibrationRms} <span className="text-xs text-[#A0ABA4] font-normal">mm/s</span>
+                            {metrics.vibrationRms} <span className="text-xs text-[#A0ABA4] font-normal">{isArabic ? 'ملم/ث' : 'mm/s'}</span>
                         </div>
                         <div className="text-[0.68rem] text-[#E7A944] font-mono">
-                            ISO Limit: 4.5 mm/s
+                            {isArabic ? 'حد ISO: 4.5 ملم/ث' : 'ISO Limit: 4.5 mm/s'}
                         </div>
                     </button>
 
@@ -250,16 +254,16 @@ const PumpSchematic = ({ pump, activeMetric = 'vibration', onSelectMetric }) => 
                         }`}
                     >
                         <div className="flex justify-between items-center text-xs">
-                            <span className="text-[#DCE7D8]">Casing Temperature</span>
+                            <span className="text-[#DCE7D8]">{t('agriPulse.schematic.casingTemp', 'Casing Temperature')}</span>
                             <span className="text-[0.65rem] font-bold font-mono px-1.5 py-0.5 rounded bg-[#E7A944]/20 text-[#E7A944]">
-                                ELEVATED
+                                {t('agriPulse.schematic.elevated', 'ELEVATED')}
                             </span>
                         </div>
                         <div className="text-xl font-bold font-mono text-white mt-1">
                             {metrics.casingTemp} <span className="text-xs text-[#A0ABA4] font-normal">°C</span>
                         </div>
                         <div className="text-[0.68rem] text-[#A0ABA4] font-mono">
-                            Max: 88.0°C
+                            {isArabic ? 'الحد الأقصى: 88.0°س' : 'Max: 88.0°C'}
                         </div>
                     </button>
 
@@ -274,16 +278,16 @@ const PumpSchematic = ({ pump, activeMetric = 'vibration', onSelectMetric }) => 
                         }`}
                     >
                         <div className="flex justify-between items-center text-xs">
-                            <span className="text-[#DCE7D8]">Discharge Pressure</span>
+                            <span className="text-[#DCE7D8]">{t('agriPulse.schematic.dischargePressure', 'Discharge Pressure')}</span>
                             <span className="text-[0.65rem] font-bold font-mono px-1.5 py-0.5 rounded bg-[#C7F36B]/20 text-[#C7F36B]">
-                                HEAD
+                                {t('agriPulse.schematic.head', 'HEAD')}
                             </span>
                         </div>
                         <div className="text-xl font-bold font-mono text-white mt-1">
-                            {metrics.dischargePressure} <span className="text-xs text-[#A0ABA4] font-normal">bar</span>
+                            {metrics.dischargePressure} <span className="text-xs text-[#A0ABA4] font-normal">{isArabic ? 'بار' : 'bar'}</span>
                         </div>
                         <div className="text-[0.68rem] text-[#A0ABA4] font-mono">
-                            Suction: {metrics.suctionPressure || 1.12} bar
+                            {isArabic ? `السحب: ${metrics.suctionPressure || 1.12} بار` : `Suction: ${metrics.suctionPressure || 1.12} bar`}
                         </div>
                     </button>
 
@@ -298,16 +302,16 @@ const PumpSchematic = ({ pump, activeMetric = 'vibration', onSelectMetric }) => 
                         }`}
                     >
                         <div className="flex justify-between items-center text-xs">
-                            <span className="text-[#DCE7D8]">Motor Current</span>
+                            <span className="text-[#DCE7D8]">{t('agriPulse.schematic.motorCurrent', 'Motor Current')}</span>
                             <span className="text-[0.65rem] font-bold font-mono px-1.5 py-0.5 rounded bg-[#D94C45]/20 text-[#D94C45]">
-                                112% FLA
+                                {isArabic ? '112% حمل أقصى' : '112% FLA'}
                             </span>
                         </div>
                         <div className="text-xl font-bold font-mono text-white mt-1">
                             {metrics.motorCurrent} <span className="text-xs text-[#A0ABA4] font-normal">A</span>
                         </div>
                         <div className="text-[0.68rem] text-[#C7F36B] font-mono">
-                            Flow: {metrics.flowRate} L/min
+                            {isArabic ? `التدفق: ${metrics.flowRate} ل/د` : `Flow: ${metrics.flowRate} L/min`}
                         </div>
                     </button>
                 </div>
@@ -316,10 +320,15 @@ const PumpSchematic = ({ pump, activeMetric = 'vibration', onSelectMetric }) => 
             {/* Footer Diagnostic Bar */}
             <div className="mt-2 pt-2 border-t border-[#1C4B40]/70 flex flex-col sm:flex-row justify-between text-xs text-[#A0ABA4] gap-1">
                 <div>
-                    <strong className="text-white">Active Diagnosis:</strong> {pump.technicianNotes || 'Continuous telemetry within baseline envelope.'}
+                    <strong className="text-white">{t('agriPulse.schematic.activeDiagnosis', 'Active Diagnosis:')}</strong>{' '}
+                    {isArabic 
+                        ? (pump.id === 'P-04' || pump.status === 'CRITICAL'
+                            ? 'قمة توافقية عند 1.48 كيلوهرتز تشير إلى إجهاد مجرى كرسي التحميل الداخلي. تراجع هامش NPSH.'
+                            : 'القياسات ضمن النطاق الطبيعي والمعايير المعتمدة.')
+                        : (pump.technicianNotes || 'Continuous telemetry within baseline envelope.')}
                 </div>
                 <div className="font-mono text-[0.68rem] text-[#C7F36B] flex-shrink-0">
-                    FLOW VELOCITY: 2.8 m/s
+                    {t('agriPulse.schematic.flowVelocity', 'FLOW VELOCITY: 2.8 m/s')}
                 </div>
             </div>
         </div>
