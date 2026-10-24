@@ -162,7 +162,7 @@ const HomePage = () => {
                 {/* Left: Operational State KPIs & Critical Card (8 cols) */}
                 <div className="lg:col-span-8 agri-card flex flex-col justify-between">
                     <div>
-                        <div className="flex items-center justify-between pb-3 border-b border-[#F0EFEA]">
+                        <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-[#F0EFEA]">
                             <h3 className="text-xs font-extrabold tracking-wider text-[#173F35] uppercase flex items-center gap-2">
                                 <span className="w-2 h-2 rounded-full bg-[#173F35]"></span>
                                 Fleet Operational State
@@ -173,7 +173,7 @@ const HomePage = () => {
                         </div>
 
                         {/* Top KPI Metric Numbers */}
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-5">
                             <div>
                                 <div className="text-[0.68rem] uppercase font-semibold text-[#858A80]">Monitored Assets</div>
                                 <div className="text-2xl font-extrabold text-[#173F35] font-mono mt-0.5">
@@ -203,7 +203,7 @@ const HomePage = () => {
                         </div>
 
                         {/* Critical Alert Card */}
-                        <div className="bg-[#FDECEC] border border-[#F8B4B1] rounded-md p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div className="bg-[#FDECEC] border border-[#F8B4B1] rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 my-3">
                             <div className="flex items-start gap-3">
                                 <AlertTriangle size={18} className="text-[#D94C45] mt-0.5 flex-shrink-0" />
                                 <div className="text-xs">
@@ -223,7 +223,7 @@ const HomePage = () => {
                                     setSelectedPumpId('P-04');
                                     navigate('/predictive');
                                 }} 
-                                className="px-3 py-1.5 rounded bg-[#D94C45] text-white font-bold text-[0.7rem] hover:bg-[#B33832] transition-colors flex-shrink-0 self-end sm:self-auto"
+                                className="px-3.5 py-2 rounded-lg bg-[#D94C45] text-white font-bold text-xs hover:bg-[#B33832] transition-colors flex-shrink-0 self-end sm:self-auto"
                             >
                                 Inspect Risk
                             </button>
@@ -231,8 +231,8 @@ const HomePage = () => {
                     </div>
 
                     {/* Fleet Reliability Proportion Bar */}
-                    <div className="mt-4 pt-3 border-t border-[#F0EFEA]">
-                        <div className="flex justify-between text-xs font-semibold text-[#858A80] mb-1.5">
+                    <div className="mt-6 pt-4 border-t border-[#F0EFEA]">
+                        <div className="flex justify-between text-xs font-semibold text-[#858A80] mb-2">
                             <span>Fleet Reliability Proportion</span>
                             <span className="font-mono text-[0.7rem]">
                                 {healthyPct}% Optimal • {warningPct}% Caution • {criticalPct}% Urgent
@@ -249,14 +249,14 @@ const HomePage = () => {
                 {/* Right: Monitored Assets Switcher List (4 cols) */}
                 <div className="lg:col-span-4 agri-card flex flex-col justify-between">
                     <div>
-                        <div className="flex items-center justify-between pb-3 border-b border-[#F0EFEA]">
+                        <div className="flex items-center justify-between pb-3.5 mb-3 border-b border-[#F0EFEA]">
                             <h3 className="text-xs font-extrabold tracking-wider text-[#173F35] uppercase">
                                 Monitored Assets ({activePumps.length})
                             </h3>
                             <span className="text-[0.68rem] text-[#858A80] font-mono">Click to inspect</span>
                         </div>
 
-                        <div className="divide-y divide-[#F6F5EF] max-h-72 overflow-y-auto mt-2 space-y-1">
+                        <div className="divide-y divide-[#F6F5EF] max-h-72 overflow-y-auto mt-2 space-y-1.5 pr-1">
                             {activePumps.map(pump => {
                                 const isSelected = pump.id === selectedPumpId;
                                 const displayName = pump.name ? pump.name.split('(')[0] : pump.id;
@@ -266,12 +266,12 @@ const HomePage = () => {
                                         key={pump.id}
                                         type="button"
                                         onClick={() => setSelectedPumpId(pump.id)}
-                                        className={`w-full text-left p-2 rounded cursor-pointer transition-colors flex items-center justify-between ${
+                                        className={`w-full text-left p-2.5 rounded-lg cursor-pointer transition-colors flex items-center justify-between ${
                                             isSelected ? 'bg-[#173F35] text-white shadow-xs' : 'hover:bg-[#F6F5EF] text-[#252B28]'
                                         }`}
                                     >
-                                        <div className="flex items-center gap-2 min-w-0">
-                                            <span className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                                        <div className="flex items-center gap-2.5 min-w-0">
+                                            <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${
                                                 pump.status === 'CRITICAL' ? 'bg-[#D94C45]' :
                                                 pump.status === 'WARNING' ? 'bg-[#E7A944]' : 'bg-[#C7F36B]'
                                             }`}></span>
@@ -284,7 +284,7 @@ const HomePage = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <span className={`text-[0.65rem] font-mono font-bold px-1.5 py-0.5 rounded flex-shrink-0 ml-2 ${
+                                        <span className={`text-[0.68rem] font-mono font-bold px-2 py-0.5 rounded-md flex-shrink-0 ml-2 ${
                                             isSelected ? 'bg-[#C7F36B] text-[#173F35]' : 'bg-[#EFEFE7] text-[#555]'
                                         }`}>
                                             {pump.healthScore}%
@@ -295,9 +295,9 @@ const HomePage = () => {
                         </div>
                     </div>
 
-                    <div className="pt-3 border-t border-[#F0EFEA] text-xs text-[#858A80] flex justify-between">
+                    <div className="mt-5 pt-4 border-t border-[#F0EFEA] text-xs text-[#858A80] flex justify-between items-center">
                         <span>Digital Twin Target:</span>
-                        <span className="font-mono font-bold text-[#173F35]">{activePump.id}</span>
+                        <span className="font-mono font-bold text-[#173F35] bg-[#DCE7D8] px-2 py-0.5 rounded text-[0.7rem]">{activePump.id}</span>
                     </div>
                 </div>
             </div>
@@ -328,8 +328,8 @@ const HomePage = () => {
             {/* 4. 24-HOUR TELEMETRY CHART & INTELLIGENCE BRIEFING */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
                 {/* 24h Telemetry Chart (7 cols) */}
-                <div className="lg:col-span-7 agri-card space-y-3">
-                    <div className="flex flex-wrap items-center justify-between pb-3 border-b border-[#F0EFEA] gap-2">
+                <div className="lg:col-span-7 agri-card space-y-4">
+                    <div className="flex flex-wrap items-center justify-between pb-3.5 mb-3 border-b border-[#F0EFEA] gap-2">
                         <div>
                             <div className="flex items-center gap-2">
                                 <h3 className="text-xs font-extrabold tracking-wider text-[#173F35] uppercase">
@@ -345,7 +345,7 @@ const HomePage = () => {
                         </div>
 
                         {/* Metric Switcher Tabs */}
-                        <div className="flex gap-1 bg-[#EFEFE7] p-1 rounded text-[0.7rem] font-semibold">
+                        <div className="flex gap-1 bg-[#EFEFE7] p-1 rounded-lg text-[0.7rem] font-semibold">
                             {[
                                 { id: 'vibration', label: 'Vibration' },
                                 { id: 'temperature', label: 'Temp' },
@@ -356,7 +356,7 @@ const HomePage = () => {
                                     key={tab.id}
                                     type="button"
                                     onClick={() => setSelectedSensorMetric(tab.id)}
-                                    className={`px-2 py-0.5 rounded transition-all ${
+                                    className={`px-2.5 py-1 rounded-md transition-all ${
                                         selectedSensorMetric === tab.id 
                                             ? 'bg-[#173F35] text-white shadow-xs' 
                                             : 'text-[#555] hover:text-[#173F35]'
@@ -419,7 +419,7 @@ const HomePage = () => {
                         </ResponsiveContainer>
                     </div>
 
-                    <div className="pt-2 border-t border-[#F0EFEA] flex justify-between text-xs text-[#858A80]">
+                    <div className="mt-4 pt-3.5 border-t border-[#F0EFEA] flex justify-between text-xs text-[#858A80]">
                         <span className="flex items-center gap-1.5">
                             <span className="w-2 h-2 rounded-full bg-[#D94C45]"></span>
                             <span>12:00 UTC: Vibration breached ISO 10816 Zone C alert limit (4.5 mm/s)</span>
@@ -431,7 +431,7 @@ const HomePage = () => {
                 {/* Intelligence Briefing (5 cols) */}
                 <div className="lg:col-span-5 agri-card flex flex-col justify-between">
                     <div>
-                        <div className="flex items-center justify-between pb-3 border-b border-[#F0EFEA]">
+                        <div className="flex items-center justify-between pb-3.5 mb-3 border-b border-[#F0EFEA]">
                             <h3 className="text-xs font-extrabold tracking-wider text-[#173F35] uppercase flex items-center gap-2">
                                 <Sparkles size={14} className="text-[#173F35]" />
                                 Intelligence Briefing
@@ -443,7 +443,7 @@ const HomePage = () => {
 
                         <div className="space-y-3 mt-3">
                             {INTELLIGENCE_BRIEFS.slice(0, 3).map(b => (
-                                <div key={b.id} className="p-3 rounded bg-[#F6F5EF] border border-[#E6E5DC] text-xs">
+                                <div key={b.id} className="p-3.5 rounded-xl bg-[#F6F5EF] border border-[#E6E5DC] text-xs">
                                     <div className="flex items-center justify-between">
                                         <div className="font-bold text-[#252B28] flex items-center gap-1.5">
                                             <span className={`w-2 h-2 rounded-full ${b.severity === 'CRITICAL' ? 'bg-[#D94C45]' : 'bg-[#E7A944]'}`}></span>
@@ -453,10 +453,10 @@ const HomePage = () => {
                                             {b.pumpId}
                                         </span>
                                     </div>
-                                    <p className="text-[#555A52] text-[0.72rem] mt-1 leading-snug">
+                                    <p className="text-[#555A52] text-[0.72rem] mt-1.5 leading-relaxed">
                                         {b.summary}
                                     </p>
-                                    <div className="mt-2 text-[0.7rem] bg-white p-1.5 rounded border border-[#E6E5DC] text-[#173F35]">
+                                    <div className="mt-2.5 text-[0.7rem] bg-white p-2 rounded-lg border border-[#E6E5DC] text-[#173F35]">
                                         <strong>Prescription:</strong> {b.recommendedAction || b.recommendation}
                                     </div>
                                 </div>
@@ -466,7 +466,7 @@ const HomePage = () => {
 
                     <button 
                         onClick={() => navigate('/diagnostics')} 
-                        className="mt-4 w-full py-2 rounded bg-[#173F35] text-white font-bold text-xs hover:bg-[#12332B] transition-colors flex items-center justify-center gap-1.5"
+                        className="mt-5 w-full py-2.5 rounded-lg bg-[#173F35] text-white font-bold text-xs hover:bg-[#12332B] transition-colors flex items-center justify-center gap-1.5 shadow-xs"
                     >
                         <span>Open Technical AI Diagnostics</span>
                         <ChevronRight size={14} />
@@ -476,7 +476,7 @@ const HomePage = () => {
 
             {/* 5. CHRONOLOGICAL ACTIVITY STREAM */}
             <div className="agri-card">
-                <div className="flex items-center justify-between pb-3 border-b border-[#F0EFEA]">
+                <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-[#F0EFEA]">
                     <h3 className="text-xs font-extrabold tracking-wider text-[#173F35] uppercase flex items-center gap-2">
                         <Clock size={14} className="text-[#173F35]" />
                         Chronological Activity Stream

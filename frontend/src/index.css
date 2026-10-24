@@ -78,9 +78,16 @@ html, body {
 .agri-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  border-radius: 8px;
+  border-radius: 14px;
+  padding: 1.5rem;
   box-shadow: var(--shadow-subtle);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+@media (max-width: 640px) {
+  .agri-card {
+    padding: 1.125rem;
+  }
 }
 
 .agri-card:hover {
@@ -93,7 +100,8 @@ html, body {
   background-color: var(--bg-evergreen);
   color: var(--text-inverse);
   border: 1px solid var(--border-evergreen);
-  border-radius: 8px;
+  border-radius: 14px;
+  padding: 1.5rem;
   box-shadow: var(--shadow-evergreen);
 }
 
