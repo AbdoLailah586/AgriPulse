@@ -79,6 +79,8 @@ The project documentation is organized hierarchically to serve university commit
 
 ## 🏛️ End-to-End System Architecture
 
+AgriPulse coordinates six integrated subsystems communicating through a **Unified Ingress & API Gateway (Port 8000)** and an **Asynchronous Redis 7 Event Bus**. This decouples time-sensitive IoT ingestion and live WebSocket streaming from heavy ML and RAG model inference.
+
 ```mermaid
 flowchart TD
     subgraph Edge ["Hardware & Edge Layer (WS7)"]
@@ -87,25 +89,37 @@ flowchart TD
         PUMP --> ESP
     end
 
-    subgraph Backend ["Cloud Microservices (WS6)"]
-        ING["ingestion-api (Port 8000)\nFastAPI + Timescale/PostgreSQL"]
-        INF["inference-service (Port 8001)\nCausal Inference Engine\nExtraTrees / XGBoost (Core 7)"]
-        RAG["rag-assistant (Port 8002)\nChromaDB Vector Store\nISO 10816-3 & Centrifugal FMEA"]
-        DASH_BE["dashboard-backend (Port 8003)\nWebSocket Broadcaster & Work Orders"]
+    subgraph Gateway ["Unified Ingress & API Gateway (Port 8000)"]
+        GW["FastAPI Central Gateway\n- REST API: /api/v1/*\n- WebSocket: /ws/telemetry & /ws/alerts"]
+    end
+
+    subgraph Bus ["Data Plane & Event Bus (WS6)"]
+        BUS[("Redis 7 Event Bus\ntelemetry:raw | scored | alerts")]
+        TSDB[("PostgreSQL 16 + TimescaleDB\nHypertables & Maintenance Tables")]
+    end
+
+    subgraph AI ["Intelligent Services Mesh"]
+        INF["Causal ML Engine\nExtraTrees Classifier (Core 7)\nWeibull RUL Regression"]
+        RAG["RAG Diagnostic Assistant\nChromaDB Vector Store\nISO 10816-3 & Centrifugal FMEA"]
+        YOLO["Field Vision (YOLOv8)\nFoliar Disease & Water Stress Correlator"]
     end
 
     subgraph UI ["Presentation Layer (WS8)"]
-        FE["Next.js / React Dashboard\nReal-Time Gauges, Alerts & WO Manager"]
+        FE["React 18 / Vite Web Dashboard\nReal-Time Digital Twin Gauges, Alerts & WO Manager"]
     end
 
-    ESP -->|"HTTPS POST /ingest"| ING
-    ING -->|"Raw Storage"| ING
-    ING -->|"POST /predict"| INF
-    INF -->|"Health Index + Attributed Sensor"| ING
-    INF -->|"WARNING / CRITICAL Alert Event"| RAG
-    RAG -->|"Calibrated Work Order Schema"| DASH_BE
-    ING -->|"Stream Update"| DASH_BE
-    DASH_BE -->|"WebSocket Push"| FE
+    ESP -->|"HTTPS POST /api/v1/telemetry/ingest"| GW
+    GW -->|"1. Store Raw Telemetry"| TSDB
+    GW -->|"2. Publish 'telemetry:raw'"| BUS
+    BUS -->|"3. Consume Telemetry"| INF
+    INF -->|"4. Save Prognostics & Scores"| TSDB
+    INF -->|"5. Publish 'telemetry:scored'"| BUS
+    BUS -->|"6. On Score >= Warning/Critical"| RAG
+    RAG -->|"7. Draft Work Order & LOTO"| TSDB
+    YOLO -.->|"Agro-Hydraulic Query"| GW
+    BUS -->|"8. Live Broadcast"| GW
+    GW -->|"9. WebSocket Sub-Second Push"| FE
+    FE -->|"10. REST API Operations (/api/v1/*)"| GW
 ```
 
 ---

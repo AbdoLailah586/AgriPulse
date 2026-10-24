@@ -10,26 +10,51 @@
 
 ## 1. System High-Level Architecture
 
-The end-to-end architecture continuously ingests operational telemetry from the centrifugal pump, assesses machine health using a causal machine learning engine, correlates statistical anomalies with maintenance engineering standards, and produces actionable work orders via an LLM/RAG assistant.
+The AgriPulse end-to-end architecture continuously ingests operational telemetry from centrifugal irrigation pumps, assesses asset health using a causal machine learning engine, correlates statistical anomalies with maintenance engineering standards, and produces actionable work orders via an LLM/RAG assistant. All subsystems communicate via a **Unified API Gateway (Port 8000)** and an **Asynchronous Redis Event Bus**, providing sub-second real-time responsiveness to the React 18 frontend.
 
 ```mermaid
 flowchart TD
-    HW["ESP32 / Industrial Gateway\nTelemetry from Centrifugal Pump\n(1 packet/min)"]
-    API["Ingestion API\nFastAPI on Railway"]
-    DB[("PostgreSQL\nTimescaleDB / Telemetry & Alerts")]
-    ENG["Causal Inference Engine\nExtraTrees Classifier (Core 7)\npump_engine_strict.pkl"]
-    FMEA["RAG Vector Knowledge Base\n- ISO 10816-3 Vibration Severity\n- ANSI/HI 9.6 Centrifugal Standards\n- Pump O&M Manuals"]
-    RAG["RAG Assistant\nLLM Work Order Generator"]
-    DASH["Operations Dashboard\nNext.js / WebSocket Live Stream"]
+    subgraph Edge ["1. Edge & IoT Test Bench"]
+        HW["ESP32 Microcontroller\n8 Sensors (ADXL345, SCT-013, DS18B20, G1/4)\n1-min ISO-8601 Packets"]
+    end
 
-    HW -->|"HTTPS POST /ingest"| API
-    API --> DB
-    API -->|"Forward Stream"| ENG
-    ENG -->|"Health Index + Attributed Sensor"| API
-    ENG -->|"Alert Event (Warning/Critical)"| RAG
-    FMEA -->|"Domain Context Chunks"| RAG
-    RAG -->|"Actionable Work Order Draft"| DASH
-    API -->|"WebSocket Status & Telemetry"| DASH
+    subgraph Gateway ["2. Unified Ingress & API Gateway (Port 8000)"]
+        GW["FastAPI Central Ingress Gateway\nReverse Proxy / APIRouter (Port 8000)\n- REST API: /api/v1/*\n- WebSocket: /ws/telemetry & /ws/alerts"]
+    end
+
+    subgraph DataPlane ["3. Data & Messaging Backbone"]
+        REDIS[("Redis 7 In-Memory Bus\nPub/Sub & Fast State Cache\n- telemetry:raw\n- telemetry:scored\n- alerts:trigger")]
+        TSDB[("PostgreSQL 16 + TimescaleDB\nHypertables: sensor_telemetry\nTables: weibull_predictions, alerts, work_orders")]
+    end
+
+    subgraph AIServices ["4. Intelligent Processing Services (Internal Mesh)"]
+        ML["Causal ML & Prognostics Engine\n- ExtraTrees Classifier (Core 7)\n- Dynamic Z-Score Attribution\n- Weibull RUL Hazard Estimator"]
+        RAG["RAG Diagnostic Assistant\n- ChromaDB: agripulse_knowledge\n- ISO 10816-3, ANSI/HI 9.6, Grundfos NB O&M\n- Auto Work Order & LOTO Synthesizer"]
+        YOLO["Field Vision Engine (YOLOv8)\n- Foliar Pathology Scan\n- Agro-Hydraulic Stress Correlation"]
+    end
+
+    subgraph Client ["5. Presentation & Control Layer"]
+        UI["React 18 / Vite Web Dashboard\n- Fleet Overview & Pump Digital Twin\n- Real-Time Gauges & Strip Charts\n- Weibull Hazard Curves & WO Management"]
+    end
+
+    %% Communication Flows
+    HW -->|"1. HTTPS POST /api/v1/telemetry/ingest"| GW
+    GW -->|"2. Write Raw Hypertable"| TSDB
+    GW -->|"3. Publish 'telemetry:raw'"| REDIS
+
+    REDIS -->|"4. Consume Raw Packet"| ML
+    ML -->|"5. Store RUL & Scores"| TSDB
+    ML -->|"6. Publish 'telemetry:scored'"| REDIS
+
+    REDIS -->|"7. On Score >= Warning/Critical"| RAG
+    RAG -->|"8. Draft Work Order & LOTO"| TSDB
+
+    YOLO -.->|"Agro-Hydraulic Query"| GW
+    GW -.->|"Telemetry Snapshot"| YOLO
+
+    REDIS -->|"9. Live Broadcast"| GW
+    GW -->|"10. WebSocket Push (Sub-second)"| UI
+    UI -->|"11. REST API Commands (/api/v1/*)"| GW
 ```
 
 ---
@@ -171,9 +196,109 @@ When status reaches `WARNING` or `CRITICAL`, the system triggers an asynchronous
 
 ---
 
-## 6. Microservices & API Contract
+## 6. Unified Architecture & Subsystem Communication Contracts
 
-1. **`ingestion-api` (Port 8000):** Validates incoming ESP32/Gateway telemetry packets, writes raw records to PostgreSQL, and calls inference.
-2. **`inference-service` (Port 8001):** Maintains 65-reading rolling memory per pump instance, executes ExtraTrees feature transformation, and emits predictions.
-3. **`rag-assistant` (Port 8002):** ChromaDB vector store + LangChain orchestrator querying pump manuals and generating structured work orders.
-4. **`dashboard-backend` (Port 8003):** Pushes real-time WebSocket frames to the frontend UI and handles work order status tracking.
+Rather than exposing multiple fragmented ports to clients, AgriPulse implements a **Single-Ingress API Gateway (Port 8000)** paired with an **Internal Redis 7 Event Bus**. This guarantees that the React 18 frontend, the ESP32 IoT edge gateway, and external clients interface with a single secure, authenticated surface while internal AI engines process telemetry asynchronously.
+
+### 6.1 Subsystem Communication Matrix
+
+| Source Subsystem | Destination Subsystem | Protocol / Channel | Payload / Data Contract | Latency Target |
+| :--- | :--- | :--- | :--- | :--- |
+| **ESP32 Edge Rig** | **Ingress Gateway** | `HTTPS POST /api/v1/telemetry/ingest` (or MQTT `agripulse/pump/{id}/telemetry`) | JSON packet with Core 7 sensor metrics + timestamp | $< 200\text{ ms}$ |
+| **Ingress Gateway** | **TimescaleDB** | Async SQL (`INSERT INTO sensor_telemetry`) | Raw telemetry record in hypertable | $< 25\text{ ms}$ |
+| **Ingress Gateway** | **Redis Event Bus** | `PUBLISH telemetry:raw` | `{"pumpId": str, "timestamp": str, "sensors": dict}` | $< 5\text{ ms}$ |
+| **Redis Event Bus** | **Causal ML Engine** | Redis Pub/Sub Subscription | Consumes `telemetry:raw`, pushes into 65-sample FIFO | Immediate |
+| **Causal ML Engine** | **TimescaleDB** | Async SQL (`INSERT INTO weibull_predictions`) | `healthIndex`, `riskScore`, `attributedSensor`, `rulHours` | $< 50\text{ ms}$ |
+| **Causal ML Engine** | **Redis Event Bus** | `PUBLISH telemetry:scored` | Scored telemetry packet with Weibull & Z-deviations | $< 5\text{ ms}$ |
+| **Causal ML Engine** | **Redis Event Bus** | `PUBLISH alerts:trigger` (if score $\ge$ Warning/Critical) | Alert trigger event with ISO 10816-3 severity level | Immediate |
+| **Redis Event Bus** | **RAG Assistant** | Redis Pub/Sub Subscription | Consumes `alerts:trigger`, retrieves ChromaDB context | $< 800\text{ ms}$ |
+| **RAG Assistant** | **PostgreSQL** | Async SQL (`INSERT INTO work_orders`, `loto_checklists`) | Auto-drafted maintenance work order + LOTO | $< 100\text{ ms}$ |
+| **Redis Event Bus** | **WebSocket Broadcaster** | Internal Async Loop | Relays `telemetry:scored` and `alerts:trigger` to `/ws` | $< 15\text{ ms}$ |
+| **WebSocket Broadcaster** | **React 18 Frontend** | `WSS /ws/telemetry` & `WSS /ws/alerts` | Real-time telemetry frames and critical banner events | Sub-second |
+| **Field Vision (YOLOv8)** | **Ingress Gateway** | Internal Service Call (`GET /api/v1/telemetry/snapshot/{id}`) | Correlates crop stress with pump discharge flow & pressure | $< 150\text{ ms}$ |
+
+---
+
+### 6.2 Redis Pub/Sub Event Schemas
+
+#### Channel: `telemetry:raw`
+Published immediately after Ingress Gateway validation:
+```json
+{
+  "eventId": "evt-raw-1029384",
+  "pumpId": "PUMP-001",
+  "timestamp": "2026-10-25T01:00:00Z",
+  "readings": {
+    "sensor_00": 2.14,
+    "sensor_04": 1780.0,
+    "sensor_05": 14.8,
+    "sensor_11": 14.7,
+    "sensor_13": 2.89,
+    "sensor_28": 182.4,
+    "sensor_40": 48.2,
+    "sensor_48": 4.12
+  }
+}
+```
+
+#### Channel: `telemetry:scored`
+Published by the Causal ML & Prognostics engine:
+```json
+{
+  "eventId": "evt-sc-9847120",
+  "pumpId": "PUMP-001",
+  "timestamp": "2026-10-25T01:00:01Z",
+  "anomalyScore": 0.2840,
+  "healthIndex": 71.6,
+  "status": "WARNING",
+  "attributedSensor": "sensor_13",
+  "attributedPhenomenon": "Coupling Misalignment",
+  "weibull": {
+    "rulHours": 412.5,
+    "failureProbability": 0.38,
+    "shapeBeta": 2.15,
+    "scaleEta": 1250.0
+  },
+  "zScores": {
+    "sensor_00": 0.84,
+    "sensor_13": 3.42,
+    "sensor_05": 0.31,
+    "sensor_40": 1.15
+  }
+}
+```
+
+#### Channel: `alerts:trigger`
+Published when `anomalyScore >= 0.2713` or ISO 10816-3 threshold is breached:
+```json
+{
+  "alertId": "alt-88291",
+  "pumpId": "PUMP-001",
+  "timestamp": "2026-10-25T01:00:01Z",
+  "severity": "CRITICAL",
+  "isoZone": "Zone D — Unacceptable",
+  "metric": "Coupling Vibration",
+  "currentValue": 7.82,
+  "threshold": 7.10,
+  "unit": "mm/s RMS",
+  "attributedSensor": "sensor_13"
+}
+```
+
+---
+
+### 6.3 Unified API Gateway Endpoint Map (Port 8000)
+
+| Route Prefix | Underlying Engine / Service | Description |
+| :--- | :--- | :--- |
+| **`/api/v1/auth/*`** | Security Service | JWT token generation, refresh, engineer profile, RBAC |
+| **`/api/v1/pumps/*`** | Asset Digital Twin | Pump specifications, BEP curves, health status, nameplate data |
+| **`/api/v1/telemetry/*`** | Ingestion & TimescaleDB | Ingest ESP32 telemetry, query historical trends, fetch live snapshot |
+| **`/api/v1/predictions/*`** | ML & Prognostics | Weibull RUL curves, failure probability, SHAP/Z-score attributions |
+| **`/api/v1/alerts/*`** | Incident Management | Active alert list, acknowledge, escalate, resolution log |
+| **`/api/v1/work-orders/*`** | Maintenance Planner | Auto-generated & manual work orders, LOTO safety checklists |
+| **`/api/v1/assistant/*`** | RAG Diagnostic Service | Interactive technician chat, automated FMEA synthesis |
+| **`/api/v1/vision/*`** | YOLOv8 Engine | Foliar pathology scans, Agro-Hydraulic stress cross-correlation |
+| **`/api/v1/dashboard/*`** | Fleet Aggregator | High-level fleet KPIs, energy efficiency, MTBF, irrigation sectors |
+| **`/ws/telemetry`** | WebSocket Gateway | Real-time push of `telemetry:scored` packets to frontend |
+| **`/ws/alerts`** | WebSocket Gateway | Sub-second push of critical alarm banners and emergency stop signals |

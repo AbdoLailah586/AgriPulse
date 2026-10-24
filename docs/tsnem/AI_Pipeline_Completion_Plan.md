@@ -29,45 +29,56 @@ flowchart LR
 
 ---
 
-## Part 2 — Full Production Architecture (Microservices)
+## Part 2 — Full Production Architecture (Unified Gateway & Event Bus)
 
 ```mermaid
 flowchart TD
-    subgraph "Target Asset & Hardware Test Rig"
+    subgraph Edge ["Target Asset & Hardware Test Rig"]
         PUMP["End-Suction Centrifugal Irrigation Pump\n(Test Bench or Field Installation)"]
-        ESP["ESP32 Telemetry Gateway\n5-8 Sensors (1 packet/min)"]
+        ESP["ESP32 Telemetry Gateway\n5-8 Sensors (1 packet/min)\nADXL345, SCT-013, DS18B20, G1/4"]
         PUMP --> ESP
     end
 
-    subgraph "Cloud Backend (Railway)"
-        ING["ingestion-api (FastAPI:8000)\nTelemetry validation & DB Storage"]
-        INF["inference-service (FastAPI:8001)\nStrictPumpRealTimeEngine + ExtraTrees"]
-        RAG["rag-assistant (FastAPI:8002)\nChromaDB + Centrifugal Pump FMEA & Manuals"]
-        BE["dashboard-backend (FastAPI:8003)\nWebSocket & Work Order Manager"]
-        DB[("PostgreSQL Database\nHistorical Logs & Alerts")]
+    subgraph Backend ["Cloud Backend (Unified Gateway & AI Mesh)"]
+        GW["Unified Ingress & API Gateway (FastAPI:8000)\n- REST API (/api/v1/*)\n- WebSocket (/ws/telemetry & /ws/alerts)"]
+        BUS[("Redis 7 Event Bus\nPub/Sub & State Cache\ntelemetry:raw | scored | alerts")]
+        DB[("PostgreSQL 16 + TimescaleDB\nHypertables: sensor_telemetry\nTables: weibull_predictions, alerts, work_orders")]
+        INF["Causal ML Engine (Internal Service)\nStrictPumpRealTimeEngine + ExtraTrees\nWeibull RUL Regression"]
+        RAG["RAG Assistant (Internal Service)\nChromaDB + Centrifugal Pump FMEA & Manuals\nAuto Work Order & LOTO Generator"]
+        YOLO["Field Vision Engine (YOLOv8)\nFoliar Stress & Agro-Hydraulic Correlator"]
     end
 
-    subgraph "Frontend UI"
-        FE["Next.js / React Dashboard\nReal-time Health Gauge & Work Orders"]
+    subgraph Frontend ["Frontend UI (React 18 / Vite)"]
+        FE["React 18 Web Dashboard\nReal-time Health Gauge & Work Orders\nConnects to Port 8000"]
     end
 
-    ESP -->|"HTTPS POST /ingest"| ING
-    ING --> DB
-    ING -->|"POST /predict"| INF
-    INF -->|"Status + Attributed Sensor"| ING
-    INF -->|"Alert Trigger"| RAG
-    RAG -->|"Structured Work Order"| BE
-    ING -->|"Stream Update"| BE
-    BE -->|"WebSocket Push"| FE
+    ESP -->|"HTTPS POST /api/v1/telemetry/ingest"| GW
+    GW -->|"1. Store Raw Hypertable"| DB
+    GW -->|"2. Publish 'telemetry:raw'"| BUS
+    BUS -->|"3. Stream to Engine"| INF
+    INF -->|"4. Save Predictions"| DB
+    INF -->|"5. Publish 'telemetry:scored'"| BUS
+    BUS -->|"6. On Score >= Warning/Critical"| RAG
+    RAG -->|"7. Insert Work Order & LOTO"| DB
+    YOLO -.->|"Agro-Hydraulic Query"| GW
+    BUS -->|"8. Live Broadcast"| GW
+    GW -->|"9. WebSocket Sub-Second Push"| FE
+    FE -->|"10. REST API Calls (/api/v1/*)"| GW
 ```
 
 ---
 
-## Part 3 — Core Microservices Implementation
+## Part 3 — Core System Implementation & Internal Mesh
 
-### 3.1 `inference-service` (Port 8001)
+### 3.1 Unified API Gateway (Port 8000)
+Exposes a single authenticated boundary for the React 18 Frontend and IoT edge devices:
+- Handles `/api/v1/*` routes: telemetry ingestion, pump registry, predictive intelligence, alerts, work orders, assistant, and computer vision.
+- Manages authenticated WebSockets (`/ws/telemetry` & `/ws/alerts`) connected to the Redis event bus.
+
+### 3.2 Causal ML & Prognostics Engine (Internal Worker / Service)
 Contains the exact serialized pipeline trained in the notebook:
 - **Model:** `pump_engine_strict.pkl` (ExtraTrees Classifier trained on Core 7 sensors).
+- **Prognostics:** Weibull Remaining Useful Life (RUL) regression ($\beta$ shape, $\eta$ scale).
 - **Configuration:** `model_config.json` containing:
   - Warning Threshold: `0.2713`
   - Critical Threshold: `0.3169`
@@ -75,15 +86,19 @@ Contains the exact serialized pipeline trained in the notebook:
 - **Memory Buffer:** Maintains a 65-reading rolling FIFO window per pump ID.
 - **Warm-Up:** First 61 minutes report status `INITIALIZING` to build stable 15-min and 60-min trend baselines.
 
-### 3.2 `rag-assistant` (Port 8002)
+### 3.3 RAG Assistant & FMEA Knowledge Base (Internal Service)
 Contains the pump-specific maintenance knowledge base:
-- **Standards:** ISO 10816-3 (Vibration Severity for Class II Pumps), ANSI/HI 9.6 (Centrifugal Pumps).
-- **Manuals:** Standard Centrifugal Irrigation Pump Operation & Maintenance Manuals.
+- **Standards:** ISO 10816-3 (Vibration Severity for Class II Pumps), ANSI/HI 9.6 (Centrifugal Pumps), IEC 60034-1.
+- **Manuals:** Standard Centrifugal Irrigation Pump Operation & Maintenance Manuals (Grundfos NB, Kirloskar DB).
 - **FMEA Tables:**
   - Coupling Misalignment & Spider Wear (`sensor_13`).
   - Bearing Lubrication Starvation & Ball Defect (`sensor_00`, `sensor_40`).
   - Impeller Clogging & Motor Current Overload (`sensor_05`, `sensor_11`).
   - Hydraulic Cavitation & Suction Strainer Blockage (`sensor_28`, `sensor_48`).
+- **Autonomous Trigger:** Subscribes to `alerts:trigger` on Redis to auto-synthesize Work Orders with LOTO checklists directly into PostgreSQL.
+
+### 3.4 Field Vision & Agro-Hydraulic Correlator (Internal Service)
+- YOLOv8 foliar pathology scans correlated with live pump discharge pressure (`sensor_48`) and flow rate (`sensor_28`) to distinguish pump failure from plant biological disease.
 
 ---
 
